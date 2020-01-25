@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 // Reusable RecyclerView
+// TODO: Reusable fragment?
 
 public abstract class ViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -22,7 +23,7 @@ public abstract class ViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.V
 
     public abstract RecyclerView.ViewHolder setViewHolder(ViewGroup parent);
 
-    public abstract void onBindItem(RecyclerView.ViewHolder holder, T model);
+    public abstract void onBindItem(RecyclerView.ViewHolder holder, T t);
 
     @NonNull
     @Override

@@ -4,6 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Movies implements Parcelable {
+
+    private String title, desc, date, length, rating, trailer, genre, homepage, posterPath;
+    private int poster;
+
     public static final Creator<Movies> CREATOR = new Creator<Movies>() {
         @Override
         public Movies createFromParcel(Parcel in) {
@@ -15,8 +19,6 @@ public class Movies implements Parcelable {
             return new Movies[size];
         }
     };
-    private String title, desc, date, length, rating, trailer, director;
-    private int poster;
 
     private Movies(Parcel in) {
         title = in.readString();
@@ -25,8 +27,10 @@ public class Movies implements Parcelable {
         length = in.readString();
         rating = in.readString();
         trailer = in.readString();
-        director = in.readString();
         poster = in.readInt();
+        genre = in.readString();
+        homepage = in.readString();
+        posterPath = in.readString();
     }
 
     public Movies() {
@@ -45,8 +49,10 @@ public class Movies implements Parcelable {
         parcel.writeString(length);
         parcel.writeString(rating);
         parcel.writeString(trailer);
-        parcel.writeString(director);
         parcel.writeInt(poster);
+        parcel.writeString(genre);
+        parcel.writeString(homepage);
+        parcel.writeString(posterPath);
     }
 
     public String getTitle() {
@@ -105,11 +111,27 @@ public class Movies implements Parcelable {
         this.poster = poster;
     }
 
-    public String getDirector() {
-        return director;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setDirector(String director) {
-        this.director = director;
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPoster_path(String posterPath) {
+        this.posterPath = posterPath;
     }
 }

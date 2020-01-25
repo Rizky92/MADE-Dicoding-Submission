@@ -344,4 +344,7 @@
         <item>@drawable/tv_stranger_things</item>
         <item>@drawable/tv_harley_quinn</item>
     </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
