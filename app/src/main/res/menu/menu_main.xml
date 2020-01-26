@@ -4,6 +4,6 @@
     <item
         android:id="@+id/settings_locale"
         android:title="@string/locale"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>
