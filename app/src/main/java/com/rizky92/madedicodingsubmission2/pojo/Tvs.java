@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Tvs implements Parcelable {
+
     public static final Creator<Tvs> CREATOR = new Creator<Tvs>() {
         @Override
         public Tvs createFromParcel(Parcel in) {
@@ -15,8 +16,9 @@ public class Tvs implements Parcelable {
             return new Tvs[size];
         }
     };
-    private String title, desc, date, rating, trailer, platform, producers;
-    private int seasons, total, poster;
+    private String title, desc, date, posterPath, language, popularity;
+    private double voteAverage;
+    private int voteCount, tvId;
 
     public Tvs() {
     }
@@ -25,13 +27,12 @@ public class Tvs implements Parcelable {
         title = in.readString();
         desc = in.readString();
         date = in.readString();
-        rating = in.readString();
-        trailer = in.readString();
-        platform = in.readString();
-        producers = in.readString();
-        seasons = in.readInt();
-        total = in.readInt();
-        poster = in.readInt();
+        posterPath = in.readString();
+        language = in.readString();
+        popularity = in.readString();
+        voteAverage = in.readDouble();
+        voteCount = in.readInt();
+        tvId = in.readInt();
     }
 
     @Override
@@ -44,13 +45,12 @@ public class Tvs implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(desc);
         parcel.writeString(date);
-        parcel.writeString(rating);
-        parcel.writeString(trailer);
-        parcel.writeString(platform);
-        parcel.writeString(producers);
-        parcel.writeInt(seasons);
-        parcel.writeInt(total);
-        parcel.writeInt(poster);
+        parcel.writeString(posterPath);
+        parcel.writeString(language);
+        parcel.writeString(popularity);
+        parcel.writeDouble(voteAverage);
+        parcel.writeInt(voteCount);
+        parcel.writeInt(tvId);
     }
 
     public String getTitle() {
@@ -77,59 +77,51 @@ public class Tvs implements Parcelable {
         this.date = date;
     }
 
-    public String getRating() {
-        return rating;
+    public String getPosterPath() {
+        return posterPath;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
-    public String getTrailer() {
-        return trailer;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setTrailer(String trailer) {
-        this.trailer = trailer;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getPlatform() {
-        return platform;
+    public double getVoteAverage() {
+        return voteAverage;
     }
 
-    public void setPlatform(String platform) {
-        this.platform = platform;
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
-    public String getProducers() {
-        return producers;
+    public String getPopularity() {
+        return popularity;
     }
 
-    public void setProducers(String producers) {
-        this.producers = producers;
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
     }
 
-    public int getSeasons() {
-        return seasons;
+    public int getVoteCount() {
+        return voteCount;
     }
 
-    public void setSeasons(int seasons) {
-        this.seasons = seasons;
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
     }
 
-    public int getTotal() {
-        return total;
+    public int getTvId() {
+        return tvId;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public int getPoster() {
-        return poster;
-    }
-
-    public void setPoster(int poster) {
-        this.poster = poster;
+    public void setTvId(int tvId) {
+        this.tvId = tvId;
     }
 }

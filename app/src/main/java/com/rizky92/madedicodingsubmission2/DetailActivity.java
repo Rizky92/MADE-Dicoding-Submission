@@ -1,12 +1,9 @@
 package com.rizky92.madedicodingsubmission2;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,13 +12,18 @@ import com.rizky92.madedicodingsubmission2.pojo.Movies;
 import com.rizky92.madedicodingsubmission2.pojo.Tvs;
 import com.squareup.picasso.Picasso;
 
-import java.util.Arrays;
-
 public class DetailActivity extends AppCompatActivity {
 
-    TextView tvTitle, tvDesc, tvDate, tvRating, tvDirector, tvLength, tvPlatform, dPlatform, pDirector, pLength, pDate, tvAsterisk;
-    ImageView ivPoster;
-    Button btnTrailer;
+    //TODO: fix rating
+    //TODO: baca ID genre
+
+    TextView tvTitle, tvDesc, tvDate, tvRating, tvLanguage, tvGenre, tvPop, tvAdult, dAdult;
+    ImageView tvPoster;
+    View layoutDetail;
+    ProgressBar progressBar;
+
+    Movies movies;
+    Tvs tvs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,77 +34,68 @@ public class DetailActivity extends AppCompatActivity {
         tvDesc = findViewById(R.id.desc);
         tvDate = findViewById(R.id.date);
         tvRating = findViewById(R.id.rating);
-        tvDirector = findViewById(R.id.director);
-        tvLength = findViewById(R.id.length);
-        tvPlatform = findViewById(R.id.platform);
-        tvAsterisk = findViewById(R.id.tv_asterisk);
+        tvLanguage = findViewById(R.id.language);
+        tvPop = findViewById(R.id.pop);
+        tvAdult = findViewById(R.id.adult);
+        dAdult = findViewById(R.id.tv_adult);
 
-        ivPoster = findViewById(R.id.detail_poster);
-        btnTrailer = findViewById(R.id.btn_trailer);
+        tvPoster = findViewById(R.id.detail_poster);
 
-        dPlatform = findViewById(R.id.tv_platform);
+        layoutDetail = findViewById(R.id.layout_detail);
 
-        pDate = findViewById(R.id.tv_date);
-        pDirector = findViewById(R.id.tv_director);
-        pLength = findViewById(R.id.tv_length);
+        progressBar = findViewById(R.id.progress_circular_detail);
+        showLoading(true);
 
-        final Movies movies = getIntent().getParcelableExtra("movieList");
-        final Tvs tvs = getIntent().getParcelableExtra("tvList");
+        movies = getIntent().getParcelableExtra("movieList");
+        tvs = getIntent().getParcelableExtra("tvList");
 
         if (movies != null) {
             tvTitle.setText(movies.getTitle());
             tvDesc.setText(movies.getDesc());
             tvDate.setText(movies.getDate());
-            tvRating.setText(movies.getRating());
-            tvDirector.setText(movies.getDirector());
-            tvLength.setText(movies.getLength());
+            tvRating.setText(String.format("%s%s\n%s%s", movies.getVoteAverage(), "/10", movies.getVoteCount(), getResources().getString(R.string.voters)));
+            tvLanguage.setText(movies.getLanguage());
+            tvPop.setText(movies.getPopularity());
 
-            Picasso.get().load(movies.getPoster()).into(ivPoster);
-
-            btnTrailer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent yt = new Intent(Intent.ACTION_VIEW, Uri.parse(movies.getTrailer()));
-                    startActivity(yt);
-                }
-            });
-
-        } else if (tvs != null) {
-            dPlatform.setVisibility(View.VISIBLE);
-            tvPlatform.setVisibility(View.VISIBLE);
-
-            pDirector.setText(getResources().getString(R.string.produced));
-            pLength.setText(getResources().getString(R.string.episode));
-            pDate.setText(getResources().getString(R.string.aired));
-
-            String seasons = getResources().getQuantityString(R.plurals.seasons, tvs.getSeasons(), tvs.getSeasons());
-            String episodes = getResources().getQuantityString(R.plurals.episodes, tvs.getTotal(), tvs.getTotal());
-            String title = null;
-
-            if (tvs.getTitle().contains("*")) {
-                tvAsterisk.setVisibility(View.VISIBLE);
-                title = tvs.getTitle().substring(0, tvs.getTitle().length() - 1);
+            dAdult.setVisibility(View.VISIBLE);
+            tvAdult.setVisibility(View.VISIBLE);
+            if (movies.isAdult()) {
+                tvAdult.setText(getResources().getString(R.string.yes));
             } else {
-                tvAsterisk.setVisibility(View.GONE);
-                title = tvs.getTitle();
+                tvAdult.setText(getResources().getString(R.string.no));
             }
 
-            tvTitle.setText(title);
+            Picasso.get()
+                    .load(movies.getPosterPath())
+                    .into(tvPoster);
+
+            showLoading(false);
+
+        } else if (tvs != null) {
+            tvTitle.setText(tvs.getTitle());
             tvDesc.setText(tvs.getDesc());
             tvDate.setText(tvs.getDate());
-            tvRating.setText(tvs.getRating());
-            tvDirector.setText(tvs.getProducers());
-            tvLength.setText(String.format("%s, %s", seasons, episodes));
-            tvPlatform.setText(tvs.getPlatform());
-            Picasso.get().load(tvs.getPoster()).into(ivPoster);
+            tvRating.setText(String.format("%s%s\n%s%s", tvs.getVoteAverage(), "/10", tvs.getVoteCount(), getResources().getString(R.string.voters)));
+            tvLanguage.setText(tvs.getLanguage());
+            tvPop.setText(tvs.getPopularity());
+            tvAdult.setVisibility(View.GONE);
+            dAdult.setVisibility(View.GONE);
 
-            btnTrailer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent yt = new Intent(Intent.ACTION_VIEW, Uri.parse(tvs.getTrailer()));
-                    startActivity(yt);
-                }
-            });
+            Picasso.get()
+                    .load(tvs.getPosterPath())
+                    .into(tvPoster);
+
+            showLoading(false);
+        }
+    }
+
+    public void showLoading(boolean state) {
+        if (state) {
+            progressBar.setVisibility(View.VISIBLE);
+            layoutDetail.setVisibility(View.GONE);
+        } else {
+            progressBar.setVisibility(View.GONE);
+            layoutDetail.setVisibility(View.VISIBLE);
         }
     }
 }

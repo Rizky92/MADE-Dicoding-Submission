@@ -1,12 +1,10 @@
 package com.rizky92.madedicodingsubmission2.pojo;
 
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Movies implements Parcelable {
-
-    private String title, desc, date, length, rating, trailer, genre, homepage, posterPath;
-    private int poster;
 
     public static final Creator<Movies> CREATOR = new Creator<Movies>() {
         @Override
@@ -19,21 +17,28 @@ public class Movies implements Parcelable {
             return new Movies[size];
         }
     };
+    private String title, desc, date, posterPath, language, popularity;
+    private double voteAverage;
+    private int voteCount, movieId;
+    private boolean adult;
+
+    public Movies() {
+    }
 
     private Movies(Parcel in) {
         title = in.readString();
         desc = in.readString();
         date = in.readString();
-        length = in.readString();
-        rating = in.readString();
-        trailer = in.readString();
-        poster = in.readInt();
-        genre = in.readString();
-        homepage = in.readString();
         posterPath = in.readString();
-    }
+        language = in.readString();
+        popularity = in.readString();
+        voteAverage = in.readDouble();
+        voteCount = in.readInt();
+        movieId = in.readInt();
 
-    public Movies() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            adult = in.readBoolean();
+        }
     }
 
     @Override
@@ -46,13 +51,16 @@ public class Movies implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(desc);
         parcel.writeString(date);
-        parcel.writeString(length);
-        parcel.writeString(rating);
-        parcel.writeString(trailer);
-        parcel.writeInt(poster);
-        parcel.writeString(genre);
-        parcel.writeString(homepage);
         parcel.writeString(posterPath);
+        parcel.writeString(language);
+        parcel.writeString(popularity);
+        parcel.writeDouble(voteAverage);
+        parcel.writeInt(voteCount);
+        parcel.writeInt(movieId);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            parcel.writeBoolean(adult);
+        }
     }
 
     public String getTitle() {
@@ -79,59 +87,59 @@ public class Movies implements Parcelable {
         this.date = date;
     }
 
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
-
-    public String getTrailer() {
-        return trailer;
-    }
-
-    public void setTrailer(String trailer) {
-        this.trailer = trailer;
-    }
-
-    public int getPoster() {
-        return poster;
-    }
-
-    public void setPoster(int poster) {
-        this.poster = poster;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public String getHomepage() {
-        return homepage;
-    }
-
-    public void setHomepage(String homepage) {
-        this.homepage = homepage;
-    }
-
     public String getPosterPath() {
         return posterPath;
     }
 
-    public void setPoster_path(String posterPath) {
+    public void setPosterPath(String posterPath) {
         this.posterPath = posterPath;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(String popularity) {
+        this.popularity = popularity;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
+
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
+    }
+
+    public boolean isAdult() {
+        return adult;
+    }
+
+    public void setAdult(boolean adult) {
+        this.adult = adult;
     }
 }

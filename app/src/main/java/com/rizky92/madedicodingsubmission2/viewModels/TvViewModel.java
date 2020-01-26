@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.rizky92.madedicodingsubmission2.pojo.Movies;
+import com.rizky92.madedicodingsubmission2.pojo.Tvs;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,18 +17,19 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class MovieViewModel extends ViewModel {
-    private static final String API_KEY = "4b71618fab6c4526517f0f17c5809762";
-    private MutableLiveData<ArrayList<Movies>> listItems = new MutableLiveData<>();
+public class TvViewModel extends ViewModel {
 
-    public LiveData<ArrayList<Movies>> getListItems() {
+    private static final String API_KEY = "4b71618fab6c4526517f0f17c5809762";
+    private MutableLiveData<ArrayList<Tvs>> listItems = new MutableLiveData<>();
+
+    public LiveData<ArrayList<Tvs>> getListItems() {
         return listItems;
     }
 
     public void setListItems() {
         AsyncHttpClient client = new AsyncHttpClient();
-        final ArrayList<Movies> list = new ArrayList<>();
-        String url = "https://api.themoviedb.org/3/discover/movie?api_key=" + API_KEY + "&language=en-US";
+        final ArrayList<Tvs> list = new ArrayList<>();
+        String url = "https://api.themoviedb.org/3/discover/tv?api_key=" + API_KEY + "&language=en-US";
 
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
@@ -41,21 +42,19 @@ public class MovieViewModel extends ViewModel {
                     Log.d("Results", result);
 
                     for (int i = 0; i < array.length(); i++) {
-                        JSONObject movie = array.getJSONObject(i);
+                        JSONObject tv = array.getJSONObject(i);
 
-                        Movies movies = new Movies();
-                        movies.setTitle(movie.getString("title"));
-                        movies.setDate(movie.getString("release_date"));
-                        movies.setDesc(movie.getString("overview"));
-                        movies.setPopularity(movie.getString("popularity"));
-                        movies.setLanguage(movie.getString("original_language"));
-                        movies.setVoteAverage(movie.getDouble("vote_average"));
-                        movies.setVoteCount(movie.getInt("vote_count"));
-                        movies.setAdult(movie.getBoolean("adult"));
-                        movies.setMovieId(movie.getInt("id")); // maybe needed for later
-                        movies.setPosterPath(String.format("%s%s", "https://image.tmdb.org/t/p/w780", movie.getString("poster_path")));
+                        Tvs tvs = new Tvs();
+                        tvs.setTitle(tv.getString("name"));
+                        tvs.setDate(tv.getString("first_air_date"));
+                        tvs.setDesc(tv.getString("overview"));
+                        tvs.setVoteAverage(tv.getDouble("vote_average"));
+                        tvs.setVoteCount(tv.getInt("vote_count"));
+                        tvs.setPopularity(tv.getString("popularity"));
+                        tvs.setLanguage(tv.getString("original_language"));
+                        tvs.setPosterPath(String.format("%s%s", "https://image.tmdb.org/t/p/w780", tv.getString("poster_path")));
 
-                        list.add(movies);
+                        list.add(tvs);
                     }
                     listItems.postValue(list);
                 } catch (Exception e) {
@@ -65,7 +64,7 @@ public class MovieViewModel extends ViewModel {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("Fail ", error.getMessage());
+                Log.d("Fail: ", error.getMessage());
             }
         });
     }
