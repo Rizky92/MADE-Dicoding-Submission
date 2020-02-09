@@ -48,7 +48,7 @@ public class TvViewModel extends ViewModel {
                         tvs.setTitle(tv.getString("name"));
                         tvs.setDate(tv.getString("first_air_date"));
                         tvs.setDesc(tv.getString("overview"));
-                        tvs.setVoteAverage(tv.getDouble("vote_average"));
+                        tvs.setVoteAverage((float) tv.getDouble("vote_average"));
                         tvs.setVoteCount(tv.getInt("vote_count"));
                         tvs.setPopularity(tv.getString("popularity"));
                         tvs.setLanguage(tv.getString("original_language"));

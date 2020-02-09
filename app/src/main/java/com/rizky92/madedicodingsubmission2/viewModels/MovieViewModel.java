@@ -49,7 +49,7 @@ public class MovieViewModel extends ViewModel {
                         movies.setDesc(movie.getString("overview"));
                         movies.setPopularity(movie.getString("popularity"));
                         movies.setLanguage(movie.getString("original_language"));
-                        movies.setVoteAverage(movie.getDouble("vote_average"));
+                        movies.setVoteAverage((float) movie.getDouble("vote_average"));
                         movies.setVoteCount(movie.getInt("vote_count"));
                         movies.setAdult(movie.getBoolean("adult"));
                         movies.setMovieId(movie.getInt("id")); // maybe needed for later
@@ -68,5 +68,9 @@ public class MovieViewModel extends ViewModel {
                 Log.d("Fail ", error.getMessage());
             }
         });
+    }
+
+    public void setListItemsByFavorites(boolean favorites) {
+
     }
 }

@@ -17,4 +17,7 @@
     <string name="voters">\u00A0Pemilih</string>
     <string name="yes">YA</string>
     <string name="no">TIDAK</string>
+    <string name="add_favorite">Tambah ke Favorit</string>
+    <string name="remove_favorite">Hapus dari Favorit</string>
+    <string name="favorites">Lihat Favorit</string>
 </resources>

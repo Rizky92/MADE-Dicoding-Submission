@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MADE Dicoding Submission 3</string>
+    <string name="app_name">MADE Dicoding Submission 4</string>
     <string name="title">Title</string>
     <string name="adesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="desc">Description</string>
@@ -16,4 +16,7 @@
     <string name="voters">\u00A0Voters</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
+    <string name="add_favorite">Add to Favorite</string>
+    <string name="remove_favorite">Remove from Favorite</string>
+    <string name="favorites">View Favorites</string>
 </resources>

@@ -1,10 +1,53 @@
 package com.rizky92.madedicodingsubmission2.pojo;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Movies implements Parcelable {
+
+    private String title, desc, date, posterPath, language, popularity;
+    private float voteAverage;
+    private int voteCount, id, movieId;
+    private boolean adult, favorite;
+
+    public Movies() {
+    }
+
+    private Movies(Parcel in) {
+        title = in.readString();
+        desc = in.readString();
+        date = in.readString();
+        posterPath = in.readString();
+        language = in.readString();
+        popularity = in.readString();
+        voteAverage = in.readFloat();
+        voteCount = in.readInt();
+        movieId = in.readInt();
+        id = in.readInt();
+        adult = in.readByte() != 0;
+        favorite = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(desc);
+        dest.writeString(date);
+        dest.writeString(posterPath);
+        dest.writeString(language);
+        dest.writeString(popularity);
+        dest.writeFloat(voteAverage);
+        dest.writeInt(voteCount);
+        dest.writeInt(movieId);
+        dest.writeInt(id);
+        dest.writeByte((byte) (adult ? 1 : 0));
+        dest.writeByte((byte) (favorite ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     public static final Creator<Movies> CREATOR = new Creator<Movies>() {
         @Override
@@ -17,51 +60,6 @@ public class Movies implements Parcelable {
             return new Movies[size];
         }
     };
-    private String title, desc, date, posterPath, language, popularity;
-    private double voteAverage;
-    private int voteCount, movieId;
-    private boolean adult;
-
-    public Movies() {
-    }
-
-    private Movies(Parcel in) {
-        title = in.readString();
-        desc = in.readString();
-        date = in.readString();
-        posterPath = in.readString();
-        language = in.readString();
-        popularity = in.readString();
-        voteAverage = in.readDouble();
-        voteCount = in.readInt();
-        movieId = in.readInt();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            adult = in.readBoolean();
-        }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(title);
-        parcel.writeString(desc);
-        parcel.writeString(date);
-        parcel.writeString(posterPath);
-        parcel.writeString(language);
-        parcel.writeString(popularity);
-        parcel.writeDouble(voteAverage);
-        parcel.writeInt(voteCount);
-        parcel.writeInt(movieId);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            parcel.writeBoolean(adult);
-        }
-    }
 
     public String getTitle() {
         return title;
@@ -111,11 +109,11 @@ public class Movies implements Parcelable {
         this.popularity = popularity;
     }
 
-    public double getVoteAverage() {
+    public float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(double voteAverage) {
+    public void setVoteAverage(float voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -135,6 +133,10 @@ public class Movies implements Parcelable {
         this.movieId = movieId;
     }
 
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
     public boolean isAdult() {
         return adult;
     }
@@ -142,4 +144,8 @@ public class Movies implements Parcelable {
     public void setAdult(boolean adult) {
         this.adult = adult;
     }
+
+    public boolean isFavorite() { return favorite; }
+
+    public void setFavorite(boolean favorite) { this.favorite = favorite; }
 }

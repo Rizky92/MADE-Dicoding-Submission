@@ -6,4 +6,9 @@
         android:title="@string/locale"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_favorite"
+        android:title="@string/favorites"
+        app:showAsAction="never" />
+
 </menu>

@@ -16,9 +16,11 @@ public class Tvs implements Parcelable {
             return new Tvs[size];
         }
     };
+
     private String title, desc, date, posterPath, language, popularity;
-    private double voteAverage;
-    private int voteCount, tvId;
+    private float voteAverage;
+    private int voteCount, id, tvId;
+    private boolean favorite;
 
     public Tvs() {
     }
@@ -30,9 +32,10 @@ public class Tvs implements Parcelable {
         posterPath = in.readString();
         language = in.readString();
         popularity = in.readString();
-        voteAverage = in.readDouble();
+        voteAverage = in.readFloat();
         voteCount = in.readInt();
         tvId = in.readInt();
+        favorite = in.readByte() != 0;
     }
 
     @Override
@@ -48,9 +51,10 @@ public class Tvs implements Parcelable {
         parcel.writeString(posterPath);
         parcel.writeString(language);
         parcel.writeString(popularity);
-        parcel.writeDouble(voteAverage);
+        parcel.writeFloat(voteAverage);
         parcel.writeInt(voteCount);
         parcel.writeInt(tvId);
+        parcel.writeByte((byte) (favorite ? 1 : 0));
     }
 
     public String getTitle() {
@@ -93,11 +97,11 @@ public class Tvs implements Parcelable {
         this.language = language;
     }
 
-    public double getVoteAverage() {
+    public float getVoteAverage() {
         return voteAverage;
     }
 
-    public void setVoteAverage(double voteAverage) {
+    public void setVoteAverage(float voteAverage) {
         this.voteAverage = voteAverage;
     }
 
@@ -107,6 +111,14 @@ public class Tvs implements Parcelable {
 
     public void setPopularity(String popularity) {
         this.popularity = popularity;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getVoteCount() {
@@ -123,5 +135,13 @@ public class Tvs implements Parcelable {
 
     public void setTvId(int tvId) {
         this.tvId = tvId;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 }
