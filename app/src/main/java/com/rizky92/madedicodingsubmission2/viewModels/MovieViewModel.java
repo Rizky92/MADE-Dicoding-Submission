@@ -44,6 +44,7 @@ public class MovieViewModel extends ViewModel {
                         JSONObject movie = array.getJSONObject(i);
 
                         Movies movies = new Movies();
+
                         movies.setTitle(movie.getString("title"));
                         movies.setDate(movie.getString("release_date"));
                         movies.setDesc(movie.getString("overview"));
@@ -52,7 +53,7 @@ public class MovieViewModel extends ViewModel {
                         movies.setVoteAverage((float) movie.getDouble("vote_average"));
                         movies.setVoteCount(movie.getInt("vote_count"));
                         movies.setAdult(movie.getBoolean("adult"));
-                        movies.setMovieId(movie.getInt("id")); // maybe needed for later
+                        movies.setMovieId(movie.getInt("id"));
                         movies.setPosterPath(String.format("%s%s", "https://image.tmdb.org/t/p/w780", movie.getString("poster_path")));
 
                         list.add(movies);

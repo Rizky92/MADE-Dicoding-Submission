@@ -97,5 +97,12 @@ public class FavoriteMovieFragment extends Fragment {
             }
         };
         recyclerView.setAdapter(adapter);
+
+        // CONTENT OBSERVER HERE
     }
+}
+
+interface LoadMoviesCallback {
+    void preExecute();
+    void postExecute(ArrayList<Movies> listMovies);
 }

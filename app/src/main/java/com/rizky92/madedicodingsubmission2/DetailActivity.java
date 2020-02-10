@@ -5,6 +5,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -57,11 +58,12 @@ public class DetailActivity extends AppCompatActivity {
     ProgressBar progressBar;
     Button btnFavorite;
 
-    Movies movies, moviesDb;
+    Movies movies, favMovie;
     Tvs tvs;
 
-    boolean isFavorite;
+    boolean isFavorite = false;
     Uri uriMovies, uriTvs;
+    Cursor cursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class DetailActivity extends AppCompatActivity {
         tvs = getIntent().getParcelableExtra("tvList");
 
         if (movies != null) {
+
             tvTitle.setText(movies.getTitle());
             tvDesc.setText(movies.getDesc());
             tvDate.setText(movies.getDate());
@@ -114,33 +117,40 @@ public class DetailActivity extends AppCompatActivity {
             // check if movie id exist in database first.
             // if not then "add to favorites"
 
-            uriMovies = Uri.parse(CONTENT_URI + "/" + movies.getId());
-            if (uriMovies != null) {
-                ArrayList<Movies> list = new ArrayList<>();
+            if (isFavorite) {
+                uriMovies = Uri.parse(CONTENT_URI + "/" + movies.getMovieId());
                 if (uriMovies != null) {
-                    Cursor cursor = getContentResolver().query(uriMovies, null, null, null, null);
+                    cursor = getContentResolver().query(uriMovies, null, null, null, null);
                     if (cursor != null) {
-                        list = MappingHelper.mapMovieCursorToArrayList(cursor);
+                        favMovie = MappingHelper.mapMovieCursorToObject(cursor);
                         cursor.close();
                     }
                 }
 
-                if (list.contains(movies.getId())) {
-                    btnFavorite.setText(getResources().getString(R.string.remove_favorite));
-                    isFavorite = true;
-                } else {
-                    btnFavorite.setText(getResources().getString(R.string.add_favorite));
-                    isFavorite = false;
+                if (favMovie != null) {
+                    if (favMovie.getMovieId() == movies.getMovieId()) {
+                        isFavorite = true;
+                        btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    } else {
+                        btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                    }
                 }
             }
+            Log.d("cursor", String.valueOf(cursor));
+
+            Log.d("movies", String.valueOf(movies.getMovieId()));
+            Log.d("movies", String.valueOf(favMovie.getMovieId()));
 
             btnFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!isFavorite) {
+                    if (isFavorite) {
+                        getContentResolver().delete(uriMovies, null, null);
+                        Toast.makeText(DetailActivity.this, "Removed from Favorites", Toast.LENGTH_SHORT).show();
+                    } else {
                         ContentValues values = new ContentValues();
 
-                        values.put(MOVIE_ID, movies.getId());
+                        values.put(MOVIE_ID, movies.getMovieId());
                         values.put(TITLE, movies.getTitle());
                         values.put(DESCRIPTION, movies.getDesc());
                         values.put(DATE, movies.getDate());
@@ -153,9 +163,6 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, "Added to Favorites", Toast.LENGTH_SHORT).show();
-                    } else {
-                        getContentResolver().delete(uriMovies, null, null);
-                        Toast.makeText(DetailActivity.this, "Removed from Favorites", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

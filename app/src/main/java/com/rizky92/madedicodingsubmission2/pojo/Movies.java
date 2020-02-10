@@ -8,12 +8,13 @@ public class Movies implements Parcelable {
     private String title, desc, date, posterPath, language, popularity;
     private float voteAverage;
     private int voteCount, id, movieId;
-    private boolean adult, favorite;
+    private boolean adult;
 
     public Movies() {
     }
 
-    private Movies(Parcel in) {
+
+    protected Movies(Parcel in) {
         title = in.readString();
         desc = in.readString();
         date = in.readString();
@@ -22,10 +23,9 @@ public class Movies implements Parcelable {
         popularity = in.readString();
         voteAverage = in.readFloat();
         voteCount = in.readInt();
-        movieId = in.readInt();
         id = in.readInt();
+        movieId = in.readInt();
         adult = in.readByte() != 0;
-        favorite = in.readByte() != 0;
     }
 
     @Override
@@ -38,10 +38,9 @@ public class Movies implements Parcelable {
         dest.writeString(popularity);
         dest.writeFloat(voteAverage);
         dest.writeInt(voteCount);
-        dest.writeInt(movieId);
         dest.writeInt(id);
+        dest.writeInt(movieId);
         dest.writeByte((byte) (adult ? 1 : 0));
-        dest.writeByte((byte) (favorite ? 1 : 0));
     }
 
     @Override
@@ -125,6 +124,14 @@ public class Movies implements Parcelable {
         this.voteCount = voteCount;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getMovieId() {
         return movieId;
     }
@@ -133,10 +140,6 @@ public class Movies implements Parcelable {
         this.movieId = movieId;
     }
 
-    public int getId() { return id; }
-
-    public void setId(int id) { this.id = id; }
-
     public boolean isAdult() {
         return adult;
     }
@@ -144,8 +147,4 @@ public class Movies implements Parcelable {
     public void setAdult(boolean adult) {
         this.adult = adult;
     }
-
-    public boolean isFavorite() { return favorite; }
-
-    public void setFavorite(boolean favorite) { this.favorite = favorite; }
 }
