@@ -5,18 +5,6 @@ import android.os.Parcelable;
 
 public class Tvs implements Parcelable {
 
-    public static final Creator<Tvs> CREATOR = new Creator<Tvs>() {
-        @Override
-        public Tvs createFromParcel(Parcel in) {
-            return new Tvs(in);
-        }
-
-        @Override
-        public Tvs[] newArray(int size) {
-            return new Tvs[size];
-        }
-    };
-
     private String title, desc, date, posterPath, language, popularity;
     private float voteAverage;
     private int voteCount, id, tvId;
@@ -34,8 +22,24 @@ public class Tvs implements Parcelable {
         popularity = in.readString();
         voteAverage = in.readFloat();
         voteCount = in.readInt();
+        id = in.readInt();
         tvId = in.readInt();
         favorite = in.readByte() != 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(desc);
+        dest.writeString(date);
+        dest.writeString(posterPath);
+        dest.writeString(language);
+        dest.writeString(popularity);
+        dest.writeFloat(voteAverage);
+        dest.writeInt(voteCount);
+        dest.writeInt(id);
+        dest.writeInt(tvId);
+        dest.writeByte((byte) (favorite ? 1 : 0));
     }
 
     @Override
@@ -43,19 +47,17 @@ public class Tvs implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(title);
-        parcel.writeString(desc);
-        parcel.writeString(date);
-        parcel.writeString(posterPath);
-        parcel.writeString(language);
-        parcel.writeString(popularity);
-        parcel.writeFloat(voteAverage);
-        parcel.writeInt(voteCount);
-        parcel.writeInt(tvId);
-        parcel.writeByte((byte) (favorite ? 1 : 0));
-    }
+    public static final Creator<Tvs> CREATOR = new Creator<Tvs>() {
+        @Override
+        public Tvs createFromParcel(Parcel in) {
+            return new Tvs(in);
+        }
+
+        @Override
+        public Tvs[] newArray(int size) {
+            return new Tvs[size];
+        }
+    };
 
     public String getTitle() {
         return title;
@@ -97,14 +99,6 @@ public class Tvs implements Parcelable {
         this.language = language;
     }
 
-    public float getVoteAverage() {
-        return voteAverage;
-    }
-
-    public void setVoteAverage(float voteAverage) {
-        this.voteAverage = voteAverage;
-    }
-
     public String getPopularity() {
         return popularity;
     }
@@ -113,12 +107,12 @@ public class Tvs implements Parcelable {
         this.popularity = popularity;
     }
 
-    public int getId() {
-        return id;
+    public float getVoteAverage() {
+        return voteAverage;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setVoteAverage(float voteAverage) {
+        this.voteAverage = voteAverage;
     }
 
     public int getVoteCount() {
@@ -127,6 +121,14 @@ public class Tvs implements Parcelable {
 
     public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getTvId() {

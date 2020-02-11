@@ -51,8 +51,6 @@ public class MovieFragment extends Fragment {
 
         adapter = new ViewAdapter<Movies>(view.getContext(), list) {
 
-            private Movies movies;
-
             @Override
             public RecyclerView.ViewHolder setViewHolder(ViewGroup parent) {
                 final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, parent, false);
@@ -61,7 +59,6 @@ public class MovieFragment extends Fragment {
 
             @Override
             public void onBindItem(RecyclerView.ViewHolder viewHolder, final Movies movies) {
-                this.movies = movies;
                 final CardViewHolder holder = (CardViewHolder) viewHolder;
 
                 holder.cardTitle.setText(movies.getTitle());
@@ -77,7 +74,7 @@ public class MovieFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                        intent.putExtra("movieList", movies);
+                        intent.putExtra(DetailActivity.EXTRA_MOVIES, movies);
                         startActivity(intent);
                     }
                 });

@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import static android.provider.BaseColumns._ID;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MOVIES_TABLE;
+import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.MOVIE_ID;
 
 public class MovieHelper {
 
@@ -61,7 +62,7 @@ public class MovieHelper {
         return database.query(
                 DATABASE_TABLE,
                 null,
-                _ID + " = ?", new String[]{id},
+                MOVIE_ID + " = ?", new String[]{id},
                 null,
                 null,
                 null,
@@ -74,10 +75,10 @@ public class MovieHelper {
     }
 
     public int update(String id, ContentValues values) {
-        return database.update(DATABASE_TABLE, values, _ID + " = ?", new String[]{id});
+        return database.update(DATABASE_TABLE, values, MOVIE_ID + " = ?", new String[]{id});
     }
 
     public int deleteById(String id) {
-        return database.delete(DATABASE_TABLE, _ID + " = ?", new String[]{id});
+        return database.delete(DATABASE_TABLE, MOVIE_ID + " = ?", new String[]{id});
     }
 }

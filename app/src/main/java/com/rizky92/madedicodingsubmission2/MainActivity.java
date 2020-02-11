@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case R.id.menu_favorite:
+                intent = new Intent(MainActivity.this, FavoriteActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

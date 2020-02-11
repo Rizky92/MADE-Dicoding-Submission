@@ -70,8 +70,4 @@ public class MovieViewModel extends ViewModel {
             }
         });
     }
-
-    public void setListItemsByFavorites(boolean favorites) {
-
-    }
 }

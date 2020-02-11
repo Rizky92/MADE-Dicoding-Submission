@@ -13,23 +13,26 @@ import java.util.ArrayList;
 
 public abstract class ViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
     private ArrayList<T> items;
 
-    public ViewAdapter(Context context, ArrayList<T> items) {
-        this.context = context;
+    protected ViewAdapter(Context context, ArrayList<T> items) {
         this.items = items;
     }
 
-    public abstract RecyclerView.ViewHolder setViewHolder(ViewGroup parent);
+    public void setList(ArrayList<T> list) {
+        this.items.clear();
+        this.items.addAll(list);
+        notifyDataSetChanged();
+    }
 
-    public abstract void onBindItem(RecyclerView.ViewHolder holder, T t);
+    protected abstract RecyclerView.ViewHolder setViewHolder(ViewGroup parent);
+
+    protected abstract void onBindItem(RecyclerView.ViewHolder holder, T t);
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder holder = setViewHolder(parent);
-        return holder;
+        return setViewHolder(parent);
     }
 
     @Override

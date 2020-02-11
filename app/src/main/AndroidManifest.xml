@@ -20,10 +20,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <provider
+            android:name=".provider.FavoriteTvProvider"
+            android:authorities="com.rizky92.madedicodingsubmission2"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".FavoriteActivity" />
+
+        <provider
             android:name=".provider.FavoriteMovieProvider"
             android:authorities="com.rizky92.madedicodingsubmission2"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
 
         <activity android:name=".DetailActivity" />
         <activity android:name=".MainActivity">

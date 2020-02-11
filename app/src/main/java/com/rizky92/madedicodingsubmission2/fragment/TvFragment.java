@@ -75,14 +75,16 @@ public class TvFragment extends Fragment {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                        intent.putExtra("tvList", tvs);
+                        intent.putExtra(DetailActivity.EXTRA_TVS, tvs);
                         startActivity(intent);
                     }
                 });
             }
 
             class CardViewHolder extends RecyclerView.ViewHolder {
-                TextView cardTitle, cardDesc, cardDate, cardProducer;
+                TextView cardTitle;
+                TextView cardDesc;
+                TextView cardDate;
                 ImageView cardPoster;
 
                 CardViewHolder(@NonNull View itemView) {

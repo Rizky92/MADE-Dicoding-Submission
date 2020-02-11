@@ -7,8 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static android.provider.BaseColumns._ID;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.TVS_TABLE;
+import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.TvColumns.TV_ID;
 
 public class TvHelper {
 
@@ -53,7 +53,7 @@ public class TvHelper {
                 null,
                 null,
                 null,
-                _ID + " ASC"
+                TV_ID + " ASC"
         );
     }
 
@@ -61,7 +61,7 @@ public class TvHelper {
         return database.query(
                 DATABASE_TABLE,
                 null,
-                _ID + " = ?", new String[]{id},
+                TV_ID + " = ?", new String[]{id},
                 null,
                 null,
                 null,
@@ -74,10 +74,10 @@ public class TvHelper {
     }
 
     public int update(String id, ContentValues values) {
-        return database.update(DATABASE_TABLE, values, _ID + " = ?", new String[]{id});
+        return database.update(DATABASE_TABLE, values, TV_ID + " = ?", new String[]{id});
     }
 
     public int deleteById(String id) {
-        return database.delete(DATABASE_TABLE, _ID + " = ?", new String[]{id});
+        return database.delete(DATABASE_TABLE, TV_ID + " = ?", new String[]{id});
     }
 }

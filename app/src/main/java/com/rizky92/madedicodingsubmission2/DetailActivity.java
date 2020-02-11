@@ -1,12 +1,10 @@
 package com.rizky92.madedicodingsubmission2;
 
 import android.content.ContentValues;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,56 +12,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
 import com.rizky92.madedicodingsubmission2.pojo.Movies;
 import com.rizky92.madedicodingsubmission2.pojo.Tvs;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.CONTENT_URI;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.DATE;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.DESCRIPTION;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.IS_ADULT;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.LANGUAGE;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.MOVIE_ID;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.POPULARITY;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.POSTER_PATH;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.TITLE;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.VOTE_AVERAGE;
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.VOTE_COUNT;
-
 public class DetailActivity extends AppCompatActivity {
 
-    // TODO: fix rating
     // TODO: baca ID genre
-    // TODO: Query Optimization
-
-    // THE PRINCIPLE
-    /*
-     * 1. API loaded ke viewModel
-     * 2. Data loaded ke detail
-     * 3.
-     */
 
     public static final String EXTRA_MOVIES = "extra_movie";
     public static final String EXTRA_TVS = "extra_tvs";
 
-    TextView tvTitle, tvDesc, tvDate, tvRating, tvLanguage, tvGenre, tvPop, tvAdult, dAdult;
-    ImageView tvPoster;
-    View layoutDetail;
-    ProgressBar progressBar;
-    Button btnFavorite;
+    private View layoutDetail;
+    private ProgressBar progressBar;
+    private Button btnFavorite;
 
-    Movies movies, favMovie;
-    Tvs tvs;
+    private Movies movies, favMovie;
+    private Tvs tvs, favTv;
 
-    boolean isFavorite = false;
-    Uri uriMovies, uriTvs;
-    Cursor cursor;
+    private boolean isFavorite = false;
+    private Uri uriMovies;
+    private Uri uriTvs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,25 +45,26 @@ public class DetailActivity extends AppCompatActivity {
 
         btnFavorite = findViewById(R.id.btn_favorite);
 
-        tvTitle = findViewById(R.id.tv_title);
-        tvDesc = findViewById(R.id.desc);
-        tvDate = findViewById(R.id.date);
-        tvRating = findViewById(R.id.rating);
-        tvLanguage = findViewById(R.id.language);
-        tvPop = findViewById(R.id.pop);
-        tvAdult = findViewById(R.id.adult);
-        dAdult = findViewById(R.id.tv_adult);
+        TextView tvTitle = findViewById(R.id.tv_title);
+        TextView tvDesc = findViewById(R.id.desc);
+        TextView tvDate = findViewById(R.id.date);
+        TextView tvRating = findViewById(R.id.rating);
+        TextView tvLanguage = findViewById(R.id.language);
+        TextView tvPop = findViewById(R.id.pop);
+        TextView tvAdult = findViewById(R.id.adult);
+        TextView dAdult = findViewById(R.id.tv_adult);
 
-        tvPoster = findViewById(R.id.detail_poster);
+        ImageView tvPoster = findViewById(R.id.detail_poster);
 
         layoutDetail = findViewById(R.id.layout_detail);
 
         progressBar = findViewById(R.id.progress_circular_detail);
         showLoading(true);
 
-        movies = getIntent().getParcelableExtra("movieList");
-        tvs = getIntent().getParcelableExtra("tvList");
+        movies = getIntent().getParcelableExtra(EXTRA_MOVIES);
+        tvs = getIntent().getParcelableExtra(EXTRA_TVS);
 
+        Cursor cursor;
         if (movies != null) {
 
             tvTitle.setText(movies.getTitle());
@@ -117,57 +91,56 @@ public class DetailActivity extends AppCompatActivity {
             // check if movie id exist in database first.
             // if not then "add to favorites"
 
-            if (isFavorite) {
-                uriMovies = Uri.parse(CONTENT_URI + "/" + movies.getMovieId());
-                if (uriMovies != null) {
-                    cursor = getContentResolver().query(uriMovies, null, null, null, null);
-                    if (cursor != null) {
-                        favMovie = MappingHelper.mapMovieCursorToObject(cursor);
-                        cursor.close();
-                    }
-                }
-
-                if (favMovie != null) {
-                    if (favMovie.getMovieId() == movies.getMovieId()) {
-                        isFavorite = true;
-                        btnFavorite.setText(getResources().getString(R.string.remove_favorite));
-                    } else {
-                        btnFavorite.setText(getResources().getString(R.string.add_favorite));
-                    }
+            uriMovies = Uri.parse(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI + "/" + movies.getMovieId());
+            if (uriMovies != null) {
+                cursor = getContentResolver().query(uriMovies, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    favMovie = MappingHelper.mapMovieCursorToObject(cursor);
+                    cursor.close();
                 }
             }
-            Log.d("cursor", String.valueOf(cursor));
-
-            Log.d("movies", String.valueOf(movies.getMovieId()));
-            Log.d("movies", String.valueOf(favMovie.getMovieId()));
+            if (favMovie != null) {
+                if (movies.getMovieId() == favMovie.getMovieId()) {
+                    btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    isFavorite = true;
+                }
+            } else {
+                btnFavorite.setText(getResources().getString(R.string.add_favorite));
+            }
 
             btnFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isFavorite) {
                         getContentResolver().delete(uriMovies, null, null);
-                        Toast.makeText(DetailActivity.this, "Removed from Favorites", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, getResources().getString(R.string.removed_favorites), Toast.LENGTH_SHORT).show();
+                        btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                        isFavorite = false;
                     } else {
                         ContentValues values = new ContentValues();
 
-                        values.put(MOVIE_ID, movies.getMovieId());
-                        values.put(TITLE, movies.getTitle());
-                        values.put(DESCRIPTION, movies.getDesc());
-                        values.put(DATE, movies.getDate());
-                        values.put(POSTER_PATH, movies.getPosterPath());
-                        values.put(LANGUAGE, movies.getLanguage());
-                        values.put(POPULARITY, movies.getPopularity());
-                        values.put(VOTE_AVERAGE, movies.getVoteAverage());
-                        values.put(VOTE_COUNT, movies.getVoteCount());
-                        values.put(IS_ADULT, movies.isAdult());
+                        values.put(DatabaseContract.MovieColumns.MOVIE_ID, movies.getMovieId());
+                        values.put(DatabaseContract.MovieColumns.TITLE, movies.getTitle());
+                        values.put(DatabaseContract.MovieColumns.DESCRIPTION, movies.getDesc());
+                        values.put(DatabaseContract.MovieColumns.DATE, movies.getDate());
+                        values.put(DatabaseContract.MovieColumns.POSTER_PATH, movies.getPosterPath());
+                        values.put(DatabaseContract.MovieColumns.LANGUAGE, movies.getLanguage());
+                        values.put(DatabaseContract.MovieColumns.POPULARITY, movies.getPopularity());
+                        values.put(DatabaseContract.MovieColumns.VOTE_AVERAGE, movies.getVoteAverage());
+                        values.put(DatabaseContract.MovieColumns.VOTE_COUNT, movies.getVoteCount());
+                        values.put(DatabaseContract.MovieColumns.IS_ADULT, movies.isAdult());
 
-                        getContentResolver().insert(CONTENT_URI, values);
-                        Toast.makeText(DetailActivity.this, "Added to Favorites", Toast.LENGTH_SHORT).show();
+                        getContentResolver().insert(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, values);
+                        Toast.makeText(DetailActivity.this, getResources().getString(R.string.added_favorites), Toast.LENGTH_SHORT).show();
+                        btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                        Log.d("Insert", String.valueOf(values));
+                        isFavorite = true;
                     }
                 }
             });
 
         } else if (tvs != null) {
+
             tvTitle.setText(tvs.getTitle());
             tvDesc.setText(tvs.getDesc());
             tvDate.setText(tvs.getDate());
@@ -182,6 +155,53 @@ public class DetailActivity extends AppCompatActivity {
                     .into(tvPoster);
 
             showLoading(false);
+
+            uriTvs = Uri.parse(DatabaseContract.TvColumns.TV_CONTENT_URI + "/" + tvs.getTvId());
+            if (uriTvs != null) {
+                cursor = getContentResolver().query(uriTvs, null, null, null, null);
+                if (cursor != null && cursor.moveToFirst()) {
+                    favTv = MappingHelper.mapTvCursorToObject(cursor);
+                    cursor.close();
+                }
+            }
+            if (favTv != null) {
+                if (tvs.getTvId() == favTv.getTvId()) {
+                    btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    isFavorite = true;
+                }
+            } else {
+                btnFavorite.setText(getResources().getString(R.string.add_favorite));
+            }
+
+            btnFavorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (isFavorite) {
+                        getContentResolver().delete(uriTvs, null, null);
+                        Toast.makeText(DetailActivity.this, getResources().getString(R.string.removed_favorites), Toast.LENGTH_SHORT).show();
+                        btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                        isFavorite = false;
+                    } else {
+                        ContentValues values = new ContentValues();
+
+                        values.put(DatabaseContract.TvColumns.TV_ID, tvs.getTvId());
+                        values.put(DatabaseContract.TvColumns.TITLE, tvs.getTitle());
+                        values.put(DatabaseContract.TvColumns.DESCRIPTION, tvs.getDesc());
+                        values.put(DatabaseContract.TvColumns.DATE, tvs.getDate());
+                        values.put(DatabaseContract.TvColumns.POSTER_PATH, tvs.getPosterPath());
+                        values.put(DatabaseContract.TvColumns.LANGUAGE, tvs.getLanguage());
+                        values.put(DatabaseContract.TvColumns.POPULARITY, tvs.getPopularity());
+                        values.put(DatabaseContract.TvColumns.VOTE_AVERAGE, tvs.getVoteAverage());
+                        values.put(DatabaseContract.TvColumns.VOTE_COUNT, tvs.getVoteCount());
+
+                        getContentResolver().insert(DatabaseContract.TvColumns.TV_CONTENT_URI, values);
+                        Toast.makeText(DetailActivity.this, getResources().getString(R.string.added_favorites), Toast.LENGTH_SHORT).show();
+                        btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                        Log.d("Insert", String.valueOf(values));
+                        isFavorite = true;
+                    }
+                }
+            });
         }
 
         if (getSupportActionBar() != null) {
@@ -190,7 +210,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
-    public void showLoading(boolean state) {
+    private void showLoading(boolean state) {
         if (state) {
             progressBar.setVisibility(View.VISIBLE);
             layoutDetail.setVisibility(View.GONE);
