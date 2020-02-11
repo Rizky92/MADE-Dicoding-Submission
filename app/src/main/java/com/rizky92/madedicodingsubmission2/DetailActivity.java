@@ -20,6 +20,8 @@ import com.rizky92.madedicodingsubmission2.pojo.Movies;
 import com.rizky92.madedicodingsubmission2.pojo.Tvs;
 import com.squareup.picasso.Picasso;
 
+import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
+
 public class DetailActivity extends AppCompatActivity {
 
     // TODO: baca ID genre
@@ -29,7 +31,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private View layoutDetail;
     private ProgressBar progressBar;
-    private Button btnFavorite;
+    private Button btnFavoriteMovie;
+    private Button btnFavoriteTv;
 
     private Movies movies, favMovie;
     private Tvs tvs, favTv;
@@ -43,7 +46,8 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        btnFavorite = findViewById(R.id.btn_favorite);
+        btnFavoriteMovie = findViewById(R.id.btn_favorite);
+        btnFavoriteTv = findViewById(R.id.btn_favorite);
 
         TextView tvTitle = findViewById(R.id.tv_title);
         TextView tvDesc = findViewById(R.id.desc);
@@ -91,9 +95,11 @@ public class DetailActivity extends AppCompatActivity {
             // check if movie id exist in database first.
             // if not then "add to favorites"
 
-            uriMovies = Uri.parse(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI + "/" + movies.getMovieId());
+            uriMovies = Uri.parse(MOVIE_CONTENT_URI + "/" + movies.getMovieId());
+            Log.d("Uri", String.valueOf(uriMovies));
             if (uriMovies != null) {
                 cursor = getContentResolver().query(uriMovies, null, null, null, null);
+                Log.d("cursor", String.valueOf(cursor));
                 if (cursor != null && cursor.moveToFirst()) {
                     favMovie = MappingHelper.mapMovieCursorToObject(cursor);
                     cursor.close();
@@ -101,20 +107,21 @@ public class DetailActivity extends AppCompatActivity {
             }
             if (favMovie != null) {
                 if (movies.getMovieId() == favMovie.getMovieId()) {
-                    btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    btnFavoriteMovie.setText(getResources().getString(R.string.remove_favorite));
                     isFavorite = true;
                 }
             } else {
-                btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                btnFavoriteMovie.setText(getResources().getString(R.string.add_favorite));
+                isFavorite = false;
             }
 
-            btnFavorite.setOnClickListener(new View.OnClickListener() {
+            btnFavoriteMovie.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isFavorite) {
                         getContentResolver().delete(uriMovies, null, null);
                         Toast.makeText(DetailActivity.this, getResources().getString(R.string.removed_favorites), Toast.LENGTH_SHORT).show();
-                        btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                        btnFavoriteMovie.setText(getResources().getString(R.string.add_favorite));
                         isFavorite = false;
                     } else {
                         ContentValues values = new ContentValues();
@@ -130,10 +137,10 @@ public class DetailActivity extends AppCompatActivity {
                         values.put(DatabaseContract.MovieColumns.VOTE_COUNT, movies.getVoteCount());
                         values.put(DatabaseContract.MovieColumns.IS_ADULT, movies.isAdult());
 
-                        getContentResolver().insert(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, values);
+                        getContentResolver().insert(MOVIE_CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, getResources().getString(R.string.added_favorites), Toast.LENGTH_SHORT).show();
-                        btnFavorite.setText(getResources().getString(R.string.remove_favorite));
-                        Log.d("Insert", String.valueOf(values));
+                        btnFavoriteMovie.setText(getResources().getString(R.string.remove_favorite));
+                        //Log.d("Insert", String.valueOf(values));
                         isFavorite = true;
                     }
                 }
@@ -166,20 +173,20 @@ public class DetailActivity extends AppCompatActivity {
             }
             if (favTv != null) {
                 if (tvs.getTvId() == favTv.getTvId()) {
-                    btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                    btnFavoriteTv.setText(getResources().getString(R.string.remove_favorite));
                     isFavorite = true;
                 }
             } else {
-                btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                btnFavoriteTv.setText(getResources().getString(R.string.add_favorite));
             }
 
-            btnFavorite.setOnClickListener(new View.OnClickListener() {
+            btnFavoriteTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (isFavorite) {
                         getContentResolver().delete(uriTvs, null, null);
                         Toast.makeText(DetailActivity.this, getResources().getString(R.string.removed_favorites), Toast.LENGTH_SHORT).show();
-                        btnFavorite.setText(getResources().getString(R.string.add_favorite));
+                        btnFavoriteTv.setText(getResources().getString(R.string.add_favorite));
                         isFavorite = false;
                     } else {
                         ContentValues values = new ContentValues();
@@ -196,7 +203,7 @@ public class DetailActivity extends AppCompatActivity {
 
                         getContentResolver().insert(DatabaseContract.TvColumns.TV_CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, getResources().getString(R.string.added_favorites), Toast.LENGTH_SHORT).show();
-                        btnFavorite.setText(getResources().getString(R.string.remove_favorite));
+                        btnFavoriteTv.setText(getResources().getString(R.string.remove_favorite));
                         Log.d("Insert", String.valueOf(values));
                         isFavorite = true;
                     }

@@ -19,20 +19,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".FavoriteMovieActivity"></activity>
+
         <provider
             android:name=".provider.FavoriteTvProvider"
-            android:authorities="com.rizky92.madedicodingsubmission2"
+            android:authorities="com.rizky92.madedicodingsubmission2tv"
             android:enabled="true"
-            android:exported="true" />
-
-        <activity android:name=".FavoriteActivity" />
-
+            android:exported="true"
+            android:readPermission="com.rizky92.madedicodingsubmission2.READ_DATABASE"
+            android:writePermission="com.rizky92.madedicodingsubmission2.WRITE_DATABASE" />
         <provider
             android:name=".provider.FavoriteMovieProvider"
-            android:authorities="com.rizky92.madedicodingsubmission2"
+            android:authorities="com.rizky92.madedicodingsubmission2movie"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:readPermission="com.rizky92.madedicodingsubmission2.READ_DATABASE"
+            android:writePermission="com.rizky92.madedicodingsubmission2.WRITE_DATABASE" />
 
+        <activity android:name=".FavoriteActivity" />
         <activity android:name=".DetailActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -52,6 +52,7 @@ public class TvViewModel extends ViewModel {
                         tvs.setVoteCount(tv.getInt("vote_count"));
                         tvs.setPopularity(tv.getString("popularity"));
                         tvs.setLanguage(tv.getString("original_language"));
+                        tvs.setTvId(tv.getInt("id"));
                         tvs.setPosterPath(String.format("%s%s", "https://image.tmdb.org/t/p/w780", tv.getString("poster_path")));
 
                         list.add(tvs);

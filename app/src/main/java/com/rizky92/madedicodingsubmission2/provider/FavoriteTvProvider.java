@@ -8,8 +8,8 @@ import android.net.Uri;
 
 import com.rizky92.madedicodingsubmission2.database.TvHelper;
 
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.AUTHORITY;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.TVS_TABLE;
+import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.TV_AUTHORITY;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.TvColumns.TV_CONTENT_URI;
 
 public class FavoriteTvProvider extends ContentProvider {
@@ -21,8 +21,8 @@ public class FavoriteTvProvider extends ContentProvider {
     private static final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        matcher.addURI(AUTHORITY, TVS_TABLE, TV);
-        matcher.addURI(AUTHORITY, TVS_TABLE + "/#", TV_ID);
+        matcher.addURI(TV_AUTHORITY, TVS_TABLE, TV);
+        matcher.addURI(TV_AUTHORITY, TVS_TABLE + "/#", TV_ID);
     }
 
     @Override

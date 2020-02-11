@@ -19,7 +19,8 @@ public class FavoritePagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private final int[] TAB_TITLES = new int[]{
-            R.string.tab_movies,
+            R.string.fav_tab_movies,
+            R.string.fav_tab_tv
     };
 
     public FavoritePagerAdapter(@NonNull FragmentManager fm, Context context) {

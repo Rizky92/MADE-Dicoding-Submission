@@ -5,11 +5,12 @@ import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.rizky92.madedicodingsubmission2.database.MovieHelper;
 
-import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.AUTHORITY;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MOVIES_TABLE;
+import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MOVIE_AUTHORITY;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
 
 public class FavoriteMovieProvider extends ContentProvider {
@@ -21,8 +22,8 @@ public class FavoriteMovieProvider extends ContentProvider {
     private static final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-        matcher.addURI(AUTHORITY, MOVIES_TABLE, MOVIE);
-        matcher.addURI(AUTHORITY, MOVIES_TABLE + "/#", MOVIE_ID);
+        matcher.addURI(MOVIE_AUTHORITY, MOVIES_TABLE, MOVIE);
+        matcher.addURI(MOVIE_AUTHORITY, MOVIES_TABLE + "/#", MOVIE_ID);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class FavoriteMovieProvider extends ContentProvider {
                 added = 0;
                 break;
         }
+        Log.d("Insert", String.valueOf(added));
         getContext().getContentResolver().notifyChange(MOVIE_CONTENT_URI, null);
         return Uri.parse(MOVIE_CONTENT_URI + "/" + added);
     }
