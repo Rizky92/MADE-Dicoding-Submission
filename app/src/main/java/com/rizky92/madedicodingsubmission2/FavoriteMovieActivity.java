@@ -1,4 +1,8 @@
-package com.rizky92.madedicodingsubmission2.fragment;
+package com.rizky92.madedicodingsubmission2;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,13 +10,6 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -23,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.rizky92.madedicodingsubmission2.DetailActivity;
-import com.rizky92.madedicodingsubmission2.R;
 import com.rizky92.madedicodingsubmission2.adapter.ViewAdapter;
 import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
@@ -34,34 +29,29 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class FavoriteMovieFragment extends Fragment implements LoadMoviesCallback {
+public class FavoriteMovieActivity extends AppCompatActivity implements LoadMoviesCallback {
 
-    private static final String EXTRA_STATE = "extra_state";
+    private static final String EXTRA_STATE_MOVIE = "extra_state_movie";
+
     ProgressBar progressBar;
     ViewAdapter<Movies> adapter;
     ArrayList<Movies> list = new ArrayList<>();
 
-    public FavoriteMovieFragment() {
-
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_main, container, false);
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_main);
 
-    @Override
-    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        progressBar = view.findViewById(R.id.progress_circular_item);
+        progressBar = findViewById(R.id.progress_circular_item);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycle_viewers);
+        RecyclerView recyclerView = findViewById(R.id.recycle_viewers);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ViewAdapter<Movies>(view.getContext(), list) {
+        adapter = new ViewAdapter<Movies>(this, list) {
 
             class CardViewHolder extends RecyclerView.ViewHolder {
+
                 TextView cardTitle;
                 TextView cardDesc;
                 TextView cardDate;
@@ -69,7 +59,6 @@ public class FavoriteMovieFragment extends Fragment implements LoadMoviesCallbac
 
                 CardViewHolder(View view) {
                     super(view);
-
                     cardTitle = view.findViewById(R.id.card_title);
                     cardDesc = view.findViewById(R.id.card_desc);
                     cardDate = view.findViewById(R.id.card_date);
@@ -78,18 +67,18 @@ public class FavoriteMovieFragment extends Fragment implements LoadMoviesCallbac
             }
 
             @Override
-            public RecyclerView.ViewHolder setViewHolder(ViewGroup parent) {
+            protected RecyclerView.ViewHolder setViewHolder(ViewGroup parent) {
                 final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, parent, false);
                 return new CardViewHolder(view);
             }
 
             @Override
-            public void onBindItem(RecyclerView.ViewHolder viewHolder, final Movies movies) {
+            protected void onBindItem(RecyclerView.ViewHolder viewHolder, final Movies movies) {
                 final CardViewHolder holder = (CardViewHolder) viewHolder;
 
                 holder.cardTitle.setText(movies.getTitle());
                 holder.cardDesc.setText(movies.getDesc());
-                holder.cardDate.setText(String.format("%s%s", view.getResources().getString(R.string.date), movies.getDate()));
+                holder.cardDate.setText(String.format("%s%s", getResources().getString(R.string.date), movies.getDate()));
                 Picasso.get()
                         .load(movies.getPosterPath())
                         .resize(202, 300)
@@ -99,7 +88,7 @@ public class FavoriteMovieFragment extends Fragment implements LoadMoviesCallbac
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        Intent intent = new Intent(FavoriteMovieActivity.this, DetailActivity.class);
                         intent.putExtra(DetailActivity.EXTRA_MOVIES, movies);
                         startActivity(intent);
                     }
@@ -112,13 +101,13 @@ public class FavoriteMovieFragment extends Fragment implements LoadMoviesCallbac
         thread.start();
         Handler handler = new Handler(thread.getLooper());
 
-        MovieObserver observer = new MovieObserver(handler, getContext());
-        getContext().getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, true, observer);
+        MovieObserver observer = new MovieObserver(handler, this);
+        getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, true, observer);
 
         if (savedInstanceState == null) {
-            new LoadMoviesAsync(getContext(), this).execute();
+            new LoadMoviesAsync(this, this).execute();
         } else {
-            ArrayList<Movies> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE);
+            ArrayList<Movies> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE_MOVIE);
             if (list != null) {
                 adapter.setList(list);
             }
@@ -127,7 +116,7 @@ public class FavoriteMovieFragment extends Fragment implements LoadMoviesCallbac
 
     @Override
     public void preExecute() {
-        getActivity().runOnUiThread(new Runnable() {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 progressBar.setVisibility(View.VISIBLE);

@@ -48,8 +48,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
 
-            case R.id.menu_favorite:
-                intent = new Intent(MainActivity.this, FavoriteActivity.class);
+            case R.id.menu_favorite_movies:
+                intent = new Intent(MainActivity.this, FavoriteMovieActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.menu_favorite_tvs:
+                intent = new Intent(MainActivity.this, FavoriteTvActivity.class);
                 startActivity(intent);
                 break;
         }

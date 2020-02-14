@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Submisi Dicoding MADE 3</string>
+    <string name="app_name">Submisi Dicoding MADE 4</string>
     <string name="title">Judul</string>
     <string name="adesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="desc">Deskripsi</string>
@@ -9,8 +9,8 @@
     <string name="rating">Rating pengguna</string>
     <string name="tab_movies">Daftar Film</string>
     <string name="tab_tv">Daftar Seri TV</string>
-    <string name="fav_tab_movies">Film Favorit</string>
-    <string name="fav_tab_tv">Seri TV Favorit</string>
+    <string name="fav_movies">Lihat film favorit</string>
+    <string name="fav_tvs">Lihat seri TV favorit</string>
     <string name="locale">Ubah bahasa</string>
     <string name="language">Bahasa</string>
     <string name="genre">Genre</string>

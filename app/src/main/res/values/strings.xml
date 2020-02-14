@@ -8,8 +8,8 @@
     <string name="rating">User rating</string>
     <string name="tab_movies">Movie List</string>
     <string name="tab_tv">Serial TV List</string>
-    <string name="fav_tab_movies">Favorite Movies</string>
-    <string name="fav_tab_tv">Favorite Serial TVs</string>
+    <string name="fav_movies">View Favorite Movies</string>
+    <string name="fav_tvs">View Favorite Serial TVs</string>
     <string name="locale">Change Language</string>
     <string name="language">Language</string>
     <string name="genre">Genre</string>
