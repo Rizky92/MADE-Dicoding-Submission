@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rizky92.madedicodingsubmission2">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <permission
@@ -19,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FavoriteMovieActivity"></activity>
+        <activity android:name=".FavoriteMovieActivity" />
 
         <provider
             android:name=".provider.FavoriteTvProvider"

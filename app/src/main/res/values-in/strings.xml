@@ -11,7 +11,6 @@
     <string name="tab_tv">Daftar Seri TV</string>
     <string name="fav_movies">Lihat film favorit</string>
     <string name="fav_tvs">Lihat seri TV favorit</string>
-    <string name="locale">Ubah bahasa</string>
     <string name="language">Bahasa</string>
     <string name="genre">Genre</string>
     <string name="pop">Popularitas</string>
@@ -24,4 +23,5 @@
     <string name="added_favorites">Ditambahkan ke daftar favoritmu</string>
     <string name="removed_favorites">Dihapus dari daftar favoritmu</string>
     <string name="favorites">Lihat Favorit</string>
+    <string name="settings">Pengaturan</string>
 </resources>

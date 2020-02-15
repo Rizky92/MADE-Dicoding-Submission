@@ -3,24 +3,64 @@ package com.rizky92.madedicodingsubmission2.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import java.util.Objects;
+
+@Entity(tableName = "movies_table")
 public class Movies implements Parcelable {
 
-    private String title, desc, date, posterPath, language, popularity;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    @NonNull
+    @ColumnInfo(name = "movie_id")
+    private int movieId;
+
+    @NonNull
+    private String title;
+
+    @NonNull
+    @ColumnInfo(name = "description")
+    private String desc;
+
+    @NonNull
+    private String date;
+
+    @ColumnInfo(name = "poster_path")
+    private String posterPath;
+
+    @NonNull
+    private String language;
+
+    @NonNull
+    private String popularity;
+
+    @NonNull
+    @ColumnInfo(name = "vote_avg")
     private float voteAverage;
-    private int voteCount, id, movieId;
+
+    @NonNull
+    @ColumnInfo(name = "vote_count")
+    private int voteCount;
+
+    @NonNull
+    @ColumnInfo(name = "isAdult")
     private boolean adult;
 
     public Movies() {
     }
 
-
-    protected Movies(Parcel in) {
-        title = in.readString();
-        desc = in.readString();
-        date = in.readString();
-        posterPath = in.readString();
-        language = in.readString();
-        popularity = in.readString();
+    private Movies(Parcel in) {
+        title = Objects.requireNonNull(in.readString());
+        desc = Objects.requireNonNull(in.readString());
+        date = Objects.requireNonNull(in.readString());
+        posterPath = Objects.requireNonNull(in.readString());
+        language = Objects.requireNonNull(in.readString());
+        popularity = Objects.requireNonNull(in.readString());
         voteAverage = in.readFloat();
         voteCount = in.readInt();
         id = in.readInt();
@@ -60,27 +100,30 @@ public class Movies implements Parcelable {
         }
     };
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
+    @NonNull
     public String getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
+    public void setDesc(@NonNull String desc) {
         this.desc = desc;
     }
 
+    @NonNull
     public String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(@NonNull String date) {
         this.date = date;
     }
 
@@ -92,19 +135,21 @@ public class Movies implements Parcelable {
         this.posterPath = posterPath;
     }
 
+    @NonNull
     public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(@NonNull String language) {
         this.language = language;
     }
 
+    @NonNull
     public String getPopularity() {
         return popularity;
     }
 
-    public void setPopularity(String popularity) {
+    public void setPopularity(@NonNull String popularity) {
         this.popularity = popularity;
     }
 
