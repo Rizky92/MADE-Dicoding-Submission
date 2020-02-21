@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MADE Dicoding Submission 5</string>
+
+    <string name="title">Judul</string>
+    <string name="adesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="desc">Deskripsi</string>
+    <string name="date">Dirilis pada\u00A0</string>
+    <string name="aired">Tayang perdana pada\u00A0</string>
+    <string name="rating">Rating pengguna</string>
+    <string name="language">Bahasa</string>
+    <string name="genre">Genre</string>
+    <string name="pop">Popularitas</string>
+    <string name="adult">Dewasa</string>
+    <string name="voters">\u00A0Pemilih</string>
+
+    <string name="tab_movies">Daftar Film</string>
+    <string name="tab_tv">Daftar Seri TV</string>
+
+    <string name="fav_movies">Lihat film favorit</string>
+    <string name="fav_tvs">Lihat seri TV favorit</string>
+
+    <string name="settings">Pengaturan</string>
+    <string name="settings_locale">Ubah bahasa</string>
+
+    <string name="settings_reminder">Nyalakan Reminder</string>
+    <string name="reminder_desc">Reminder akan mengingatkan anda untuk kembali ke aplikasi pada pukul 7 pagi</string>
+
+    <string name="settings_release">Nyalakan Today\'s Release</string>
+    <string name="release_desc">Today\'s Release akan mengingatkan anda tentang film yang dirilis hari ini pada pukul 8 pagi</string>
+
+    <string name="enable">Nyalakan</string>
+    <string name="enabled">Menyala</string>
+    <string name="disable">Matikan</string>
+    <string name="disabled">Mati</string>
+
+    <string name="yes">YA</string>
+    <string name="no">TIDAK</string>
+
+    <string name="add_favorite">Tambah ke Favorit</string>
+    <string name="remove_favorite">Hapus dari Favorit</string>
+
+    <string name="added_favorites">Ditambahkan ke daftar favorit</string>
+    <string name="removed_favorites">Dihapus dari daftar favorit</string>
+
+    <string name="favorites">Lihat favorit</string>
+
+    <string name="search">Cari…</string>
+    <string name="locale_desc">Ganti bahasa anda</string>
+</resources>
