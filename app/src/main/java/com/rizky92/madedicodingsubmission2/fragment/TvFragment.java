@@ -1,13 +1,15 @@
 package com.rizky92.madedicodingsubmission2.fragment;
 
-import android.content.Intent;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,26 +19,54 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.rizky92.madedicodingsubmission2.DetailActivity;
 import com.rizky92.madedicodingsubmission2.R;
-import com.rizky92.madedicodingsubmission2.adapter.ViewAdapter;
+import com.rizky92.madedicodingsubmission2.adapter.TvAdapter;
 import com.rizky92.madedicodingsubmission2.pojo.Tvs;
-import com.rizky92.madedicodingsubmission2.viewModels.TvViewModel;
-import com.squareup.picasso.Picasso;
+import com.rizky92.madedicodingsubmission2.viewModel.TvViewModel;
 
 import java.util.ArrayList;
 
 public class TvFragment extends Fragment {
 
     private ProgressBar progressBar;
-    private ViewAdapter<Tvs> viewAdapter;
+    private TvAdapter adapter;
     private ArrayList<Tvs> list = new ArrayList<>();
+    private String searchQuery = "";
 
     public TvFragment() {
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+
+        SearchManager manager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+
+        if (manager != null) {
+            SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
+            searchView.setSearchableInfo(manager.getSearchableInfo(getActivity().getComponentName()));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    searchQuery = s;
+                    if (s.isEmpty())
+                        return true;
+                    else
+                        return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    searchQuery = s;
+                    return false;
+                }
+            });
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
@@ -48,66 +78,19 @@ public class TvFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recycle_viewers);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
-        viewAdapter = new ViewAdapter<Tvs>(view.getContext(), list) {
-            @Override
-            public RecyclerView.ViewHolder setViewHolder(ViewGroup parent) {
-                final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, parent, false);
-                return new CardViewHolder(view);
-            }
-
-            @Override
-            public void onBindItem(RecyclerView.ViewHolder viewHolder, Tvs tvs1) {
-                final Tvs tvs = tvs1;
-
-                final CardViewHolder holder = (CardViewHolder) viewHolder;
-
-                holder.cardTitle.setText(tvs.getTitle());
-                holder.cardDesc.setText(tvs.getDesc());
-                holder.cardDate.setText(String.format("%s%s", view.getResources().getString(R.string.aired), tvs.getDate()));
-                Picasso.get()
-                        .load(tvs.getPosterPath())
-                        .resize(202, 300)
-                        .centerCrop()
-                        .into(holder.cardPoster);
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(view.getContext(), DetailActivity.class);
-                        intent.putExtra(DetailActivity.EXTRA_TVS, tvs);
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            class CardViewHolder extends RecyclerView.ViewHolder {
-                TextView cardTitle;
-                TextView cardDesc;
-                TextView cardDate;
-                ImageView cardPoster;
-
-                CardViewHolder(@NonNull View itemView) {
-                    super(itemView);
-
-                    cardTitle = itemView.findViewById(R.id.card_title);
-                    cardDesc = itemView.findViewById(R.id.card_desc);
-                    cardDate = itemView.findViewById(R.id.card_date);
-                    cardPoster = itemView.findViewById(R.id.card_poster);
-                }
-            }
-        };
-        recyclerView.setAdapter(viewAdapter);
+        adapter = new TvAdapter(list);
+        recyclerView.setAdapter(adapter);
 
         final TvViewModel viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(TvViewModel.class);
-        viewModel.setListItems();
+        viewModel.setListItems(searchQuery);
         showLoading(true);
 
         viewModel.getListItems().observe(getViewLifecycleOwner(), new Observer<ArrayList<Tvs>>() {
             @Override
             public void onChanged(ArrayList<Tvs> tvs) {
                 if (tvs != null) {
-                    viewAdapter.addItems(tvs);
+                    viewModel.setListItems(searchQuery);
+                    adapter.addItems(tvs);
                     showLoading(false);
                 }
             }

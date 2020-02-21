@@ -1,26 +1,49 @@
 <resources>
-    <string name="app_name">MADE Dicoding Submission 4</string>
+    <string name="app_name">MADE Dicoding Submission 5</string>
+
     <string name="title">Title</string>
     <string name="adesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="desc">Description</string>
     <string name="date">Released on\u00A0</string>
     <string name="aired">First aired on\u00A0</string>
     <string name="rating">User rating</string>
-    <string name="tab_movies">Movie List</string>
-    <string name="tab_tv">Serial TV List</string>
-    <string name="fav_movies">View Favorite Movies</string>
-    <string name="fav_tvs">View Favorite Serial TVs</string>
-    <string name="locale">Change Language</string>
     <string name="language">Language</string>
     <string name="genre">Genre</string>
     <string name="pop">Popularity</string>
     <string name="adult">Adult</string>
     <string name="voters">\u00A0Voters</string>
+
+    <string name="tab_movies">Movie List</string>
+    <string name="tab_tv">Serial TV List</string>
+
+    <string name="fav_movies">View Favorite Movies</string>
+    <string name="fav_tvs">View Favorite Serial TVs</string>
+
+    <string name="settings">Settings</string>
+    <string name="settings_locale">Change Language</string>
+
+    <string name="settings_reminder">Enable Reminder</string>
+    <string name="reminder_desc">Reminder will notify you to return on our app at 7 am</string>
+
+    <string name="settings_release">Enable Today\'s Release</string>
+    <string name="release_desc">Today\'s Release will notify you about today\'s movie releases at 8 am</string>
+
+    <string name="enable">Enable</string>
+    <string name="enabled">Enabled</string>
+    <string name="disable">Disable</string>
+    <string name="disabled">Disabled</string>
+
     <string name="yes">YES</string>
     <string name="no">NO</string>
+
     <string name="add_favorite">Add to Favorite</string>
     <string name="remove_favorite">Remove from Favorite</string>
+
     <string name="added_favorites">Added to your favorite list</string>
     <string name="removed_favorites">Removed from your favorite list</string>
+
     <string name="favorites">View Favorites</string>
+
+    <string name="search">Search…</string>
+    <string name="locale_desc">Change your language</string>
 </resources>

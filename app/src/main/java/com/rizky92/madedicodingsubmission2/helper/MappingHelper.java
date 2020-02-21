@@ -21,6 +21,7 @@ public class MappingHelper {
             movies.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.TITLE)));
             movies.setDesc(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.DESCRIPTION)));
             movies.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.DATE)));
+            movies.setLanguage(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.LANGUAGE)));
             movies.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.POSTER_PATH)));
             movies.setPopularity(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.POPULARITY)));
             movies.setVoteAverage(cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.VOTE_AVERAGE)));
@@ -43,6 +44,7 @@ public class MappingHelper {
             tvs.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.TITLE)));
             tvs.setDesc(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.DESCRIPTION)));
             tvs.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.DATE)));
+            tvs.setLanguage(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.LANGUAGE)));
             tvs.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.POSTER_PATH)));
             tvs.setPopularity(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.POPULARITY)));
             tvs.setVoteAverage(cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.VOTE_AVERAGE)));
@@ -63,6 +65,7 @@ public class MappingHelper {
         movies.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.TITLE)));
         movies.setDesc(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.DESCRIPTION)));
         movies.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.DATE)));
+        movies.setLanguage(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.LANGUAGE)));
         movies.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.POSTER_PATH)));
         movies.setPopularity(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.POPULARITY)));
         movies.setVoteAverage(cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.MovieColumns.VOTE_AVERAGE)));
@@ -82,6 +85,7 @@ public class MappingHelper {
         tvs.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.TITLE)));
         tvs.setDesc(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.DESCRIPTION)));
         tvs.setDate(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.DATE)));
+        tvs.setLanguage(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.LANGUAGE)));
         tvs.setPosterPath(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.POSTER_PATH)));
         tvs.setPopularity(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.POPULARITY)));
         tvs.setVoteAverage(cursor.getFloat(cursor.getColumnIndexOrThrow(DatabaseContract.TvColumns.VOTE_AVERAGE)));

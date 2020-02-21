@@ -20,7 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.rizky92.madedicodingsubmission2.adapter.ViewAdapter;
+import com.rizky92.madedicodingsubmission2.adapter.MovieAdapter;
 import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
 import com.rizky92.madedicodingsubmission2.pojo.Movies;
@@ -34,7 +34,7 @@ public class FavoriteMovieActivity extends AppCompatActivity implements LoadMovi
     private static final String EXTRA_STATE_MOVIE = "extra_state_movie";
 
     ProgressBar progressBar;
-    ViewAdapter<Movies> adapter;
+    MovieAdapter adapter;
     ArrayList<Movies> list = new ArrayList<>();
 
     @Override
@@ -47,54 +47,7 @@ public class FavoriteMovieActivity extends AppCompatActivity implements LoadMovi
         RecyclerView recyclerView = findViewById(R.id.recycle_viewers);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new ViewAdapter<Movies>(this, list) {
-
-            class CardViewHolder extends RecyclerView.ViewHolder {
-
-                TextView cardTitle;
-                TextView cardDesc;
-                TextView cardDate;
-                ImageView cardPoster;
-
-                CardViewHolder(View view) {
-                    super(view);
-                    cardTitle = view.findViewById(R.id.card_title);
-                    cardDesc = view.findViewById(R.id.card_desc);
-                    cardDate = view.findViewById(R.id.card_date);
-                    cardPoster = view.findViewById(R.id.card_poster);
-                }
-            }
-
-            @Override
-            protected RecyclerView.ViewHolder setViewHolder(ViewGroup parent) {
-                final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, parent, false);
-                return new CardViewHolder(view);
-            }
-
-            @Override
-            protected void onBindItem(RecyclerView.ViewHolder viewHolder, final Movies movies) {
-                final CardViewHolder holder = (CardViewHolder) viewHolder;
-
-                holder.cardTitle.setText(movies.getTitle());
-                holder.cardDesc.setText(movies.getDesc());
-                holder.cardDate.setText(String.format("%s%s", getResources().getString(R.string.date), movies.getDate()));
-                Picasso.get()
-                        .load(movies.getPosterPath())
-                        .resize(202, 300)
-                        .centerCrop()
-                        .into(holder.cardPoster);
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(FavoriteMovieActivity.this, DetailActivity.class);
-                        intent.putExtra(DetailActivity.EXTRA_MOVIES, movies);
-                        startActivity(intent);
-                    }
-                });
-            }
-        };
+        adapter = new MovieAdapter(list);
         recyclerView.setAdapter(adapter);
 
         HandlerThread thread = new HandlerThread("MovieObserver");

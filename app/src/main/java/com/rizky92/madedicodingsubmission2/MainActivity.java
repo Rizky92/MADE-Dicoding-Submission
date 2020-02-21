@@ -2,8 +2,6 @@ package com.rizky92.madedicodingsubmission2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.rizky92.madedicodingsubmission2.adapter.SectionPagerAdapter;
+import com.rizky92.madedicodingsubmission2.notification.ReleaseNotificationReceiver;
 
 import java.util.Objects;
 
@@ -31,20 +30,17 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         Objects.requireNonNull(getSupportActionBar()).setElevation(0);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+        ReleaseNotificationReceiver notificationReceiver = new ReleaseNotificationReceiver();
+        notificationReceiver.setReleaseAlarm(this, ReleaseNotificationReceiver.TYPE_ONE_TIME, "17:10", "test", "test description");
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
-            case R.id.settings_locale:
-                intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            case R.id.settings:
+                intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
                 break;
 

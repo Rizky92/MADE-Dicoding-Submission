@@ -3,7 +3,6 @@ package com.rizky92.madedicodingsubmission2;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +20,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
-import com.rizky92.madedicodingsubmission2.adapter.ViewAdapter;
+import com.rizky92.madedicodingsubmission2.adapter.TvAdapter;
 import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
 import com.rizky92.madedicodingsubmission2.pojo.Tvs;
@@ -30,14 +28,13 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCallback {
 
     private static final String EXTRA_STATE_TV = "extra_state_tv";
 
     ProgressBar progressBar;
-    ViewAdapter<Tvs> adapter;
+    TvAdapter adapter;
     ArrayList<Tvs> list = new ArrayList<>();
 
     @Override
@@ -50,54 +47,7 @@ public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCall
         RecyclerView recyclerView = findViewById(R.id.recycle_viewers);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        adapter = new ViewAdapter<Tvs>(this, list) {
-
-            class CardViewHolder extends RecyclerView.ViewHolder {
-
-                TextView cardTitle;
-                TextView cardDesc;
-                TextView cardDate;
-                ImageView cardPoster;
-
-                CardViewHolder(View view) {
-                    super(view);
-                    cardTitle = view.findViewById(R.id.card_title);
-                    cardDesc = view.findViewById(R.id.card_desc);
-                    cardDate = view.findViewById(R.id.card_date);
-                    cardPoster = view.findViewById(R.id.card_poster);
-                }
-            }
-
-            @Override
-            protected RecyclerView.ViewHolder setViewHolder(ViewGroup parent) {
-                final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items, parent, false);
-                return new CardViewHolder(view);
-            }
-
-            @Override
-            protected void onBindItem(RecyclerView.ViewHolder viewHolder, final Tvs tvs) {
-                final CardViewHolder holder = (CardViewHolder) viewHolder;
-
-                holder.cardTitle.setText(tvs.getTitle());
-                holder.cardDesc.setText(tvs.getDesc());
-                holder.cardDate.setText(String.format("%s%s", getResources().getString(R.string.date), tvs.getDate()));
-                Picasso.get()
-                        .load(tvs.getPosterPath())
-                        .resize(202, 300)
-                        .centerCrop()
-                        .into(holder.cardPoster);
-
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(FavoriteTvActivity.this, DetailActivity.class);
-                        intent.putExtra(DetailActivity.EXTRA_TVS, tvs);
-                        startActivity(intent);
-                    }
-                });
-            }
-        };
+        adapter = new TvAdapter(list);
         recyclerView.setAdapter(adapter);
 
         HandlerThread thread = new HandlerThread("MovieObserver");

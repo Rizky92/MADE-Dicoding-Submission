@@ -1,8 +1,14 @@
 package com.rizky92.madedicodingsubmission2;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -15,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
@@ -25,6 +32,10 @@ import com.squareup.picasso.Picasso;
 import static com.rizky92.madedicodingsubmission2.database.DatabaseContract.MovieColumns.MOVIE_CONTENT_URI;
 
 public class DetailActivity extends AppCompatActivity {
+
+    public static final int NOTIFICATION_ID = 1;
+    public static String CHANNEL_ID = "detail_activity_channel";
+    public static CharSequence CHANNEL_NAME = "made channel";
 
     // TODO: baca ID genre
 
@@ -142,6 +153,7 @@ public class DetailActivity extends AppCompatActivity {
                         getContentResolver().insert(MOVIE_CONTENT_URI, values);
                         Toast.makeText(DetailActivity.this, getResources().getString(R.string.added_favorites), Toast.LENGTH_SHORT).show();
                         btnFavoriteMovie.setText(getResources().getString(R.string.remove_favorite));
+
                         //Log.d("Insert", String.valueOf(values));
                         isFavorite = true;
                     }
