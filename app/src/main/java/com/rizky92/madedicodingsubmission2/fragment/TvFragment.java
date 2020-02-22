@@ -88,8 +88,8 @@ public class TvFragment extends Fragment {
         viewModel.getListItems().observe(getViewLifecycleOwner(), new Observer<ArrayList<Tvs>>() {
             @Override
             public void onChanged(ArrayList<Tvs> tvs) {
+                viewModel.setListItems(searchQuery);
                 if (tvs != null) {
-                    viewModel.setListItems(searchQuery);
                     adapter.addItems(tvs);
                     showLoading(false);
                 }

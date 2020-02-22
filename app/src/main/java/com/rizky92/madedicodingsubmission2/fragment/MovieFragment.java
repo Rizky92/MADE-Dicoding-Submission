@@ -65,9 +65,7 @@ public class MovieFragment extends Fragment {
         viewModel.getListItems().observe(getViewLifecycleOwner(), new Observer<ArrayList<Movies>>() {
             @Override
             public void onChanged(ArrayList<Movies> movies) {
-                if (searchQuery.isEmpty()) {
-                    viewModel.setListItems(searchQuery);
-                }
+                viewModel.setListItems(searchQuery);
                 if (movies != null) {
                     adapter.addItems(movies);
                     showLoading(false);
@@ -96,11 +94,7 @@ public class MovieFragment extends Fragment {
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
-                    searchQuery = s;
-                    if (s.isEmpty())
-                        return true;
-                    else
-                        return false;
+                    return false;
                 }
 
                 @Override

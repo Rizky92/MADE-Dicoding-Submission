@@ -46,4 +46,5 @@
 
     <string name="search">Search…</string>
     <string name="locale_desc">Change your language</string>
+    <string name="job_running">Job already scheduled</string>
 </resources>

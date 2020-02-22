@@ -42,6 +42,11 @@
             android:readPermission="com.rizky92.madedicodingsubmission2.READ_DATABASE"
             android:writePermission="com.rizky92.madedicodingsubmission2.WRITE_DATABASE" />
 
+        <service android:name=".notification.ReleaseNotificationService"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <activity android:name=".SettingsActivity" />
         <activity android:name=".TestNotificationActivity" />
         <activity android:name=".FavoriteMovieActivity" />
