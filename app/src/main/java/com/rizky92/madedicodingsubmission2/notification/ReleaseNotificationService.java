@@ -2,7 +2,6 @@ package com.rizky92.madedicodingsubmission2.notification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
-import android.content.Context;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;

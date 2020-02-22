@@ -21,7 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <receiver android:name=".widget.FavoriteMoviesWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favorite_movies_info" />
+        </receiver>
         <receiver
             android:name=".notification.ReleaseNotificationReceiver"
             android:enabled="true"
@@ -42,9 +50,10 @@
             android:readPermission="com.rizky92.madedicodingsubmission2.READ_DATABASE"
             android:writePermission="com.rizky92.madedicodingsubmission2.WRITE_DATABASE" />
 
-        <service android:name=".notification.ReleaseNotificationService"
-            android:exported="true"
+        <service
+            android:name=".notification.ReleaseNotificationService"
             android:enabled="true"
+            android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".SettingsActivity" />

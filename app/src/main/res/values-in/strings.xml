@@ -47,4 +47,5 @@
 
     <string name="search">Cari…</string>
     <string name="locale_desc">Ganti bahasa anda</string>
+    <string name="job_running">Job sudah berjalan</string>
 </resources>
