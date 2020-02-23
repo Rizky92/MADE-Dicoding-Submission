@@ -2,7 +2,7 @@
     <string name="app_name">MADE Dicoding Submission 5</string>
 
     <string name="title">Title</string>
-    <string name="adesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="adesc" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="desc">Description</string>
     <string name="date">Released on\u00A0</string>
     <string name="aired">First aired on\u00A0</string>
@@ -18,6 +18,9 @@
 
     <string name="fav_movies">View Favorite Movies</string>
     <string name="fav_tvs">View Favorite Serial TVs</string>
+
+    <string name="widget_movies">Favorite Movies</string>
+    <string name="widget_tvs">Favorite TVs</string>
 
     <string name="settings">Settings</string>
     <string name="settings_locale">Change Language</string>
@@ -47,6 +50,8 @@
     <string name="search">Search…</string>
     <string name="locale_desc">Change your language</string>
     <string name="job_running">Job already scheduled</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+    <string name="key_reminder" translatable="false">reminder</string>
+    <string name="key_release" translatable="false">releases</string>
+    <string name="key_language" translatable="false">language</string>
+    <string name="empty">No films yet…</string>
 </resources>

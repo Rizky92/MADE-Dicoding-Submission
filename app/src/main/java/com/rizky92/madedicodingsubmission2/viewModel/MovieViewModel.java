@@ -50,7 +50,6 @@ public class MovieViewModel extends ViewModel {
                         JSONObject movie = array.getJSONObject(i);
 
                         Movies movies = new Movies();
-
                         movies.setTitle(movie.getString("title"));
                         movies.setDate(movie.getString("release_date"));
                         movies.setDesc(movie.getString("overview"));

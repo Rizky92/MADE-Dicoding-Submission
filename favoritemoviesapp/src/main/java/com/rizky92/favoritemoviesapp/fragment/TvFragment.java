@@ -1,11 +1,6 @@
-package com.rizky92.madedicodingsubmission2;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.rizky92.favoritemoviesapp.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -16,37 +11,48 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.rizky92.madedicodingsubmission2.adapter.TvAdapter;
-import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
-import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
-import com.rizky92.madedicodingsubmission2.pojo.Tvs;
-import com.squareup.picasso.Picasso;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.rizky92.favoritemoviesapp.R;
+import com.rizky92.favoritemoviesapp.adapter.TvAdapter;
+import com.rizky92.favoritemoviesapp.database.DatabaseContract;
+import com.rizky92.favoritemoviesapp.helper.MappingHelper;
+import com.rizky92.favoritemoviesapp.pojo.Tvs;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCallback {
+public class TvFragment extends Fragment implements LoadTvsCallback {
 
     private static final String EXTRA_STATE_TV = "extra_state_tv";
 
-    ProgressBar progressBar;
-    TvAdapter adapter;
-    ArrayList<Tvs> list = new ArrayList<>();
+    private ProgressBar progressBar;
+    private TvAdapter adapter;
+    private ArrayList<Tvs> list = new ArrayList<>();
+
+    public TvFragment() {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
 
-        progressBar = findViewById(R.id.progress_circular_item);
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        progressBar = view.findViewById(R.id.progress_circular_item);
 
-        RecyclerView recyclerView = findViewById(R.id.recycle_viewers);
+        RecyclerView recyclerView = view.findViewById(R.id.recycle_viewers);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new TvAdapter(list);
         recyclerView.setAdapter(adapter);
 
@@ -54,11 +60,11 @@ public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCall
         thread.start();
         Handler handler = new Handler(thread.getLooper());
 
-        TvObserver observer = new TvObserver(handler, this);
-        getContentResolver().registerContentObserver(DatabaseContract.TvColumns.TV_CONTENT_URI, true, observer);
+        TvObserver observer = new TvObserver(handler, getContext());
+        getActivity().getContentResolver().registerContentObserver(DatabaseContract.TvColumns.TV_CONTENT_URI, true, observer);
 
         if (savedInstanceState == null) {
-            new LoadTvAsync(this, this).execute();
+            new LoadTvAsync(getContext(), this).execute();
         } else {
             ArrayList<Tvs> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE_TV);
             if (list != null) {
@@ -69,7 +75,7 @@ public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCall
 
     @Override
     public void preExecute() {
-        runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 progressBar.setVisibility(View.VISIBLE);
@@ -134,7 +140,14 @@ public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCall
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            new LoadTvAsync(context, (LoadTvsCallback) context).execute();
+        }
+    }
+
+    private void showLoading(boolean state) {
+        if (state) {
+            progressBar.setVisibility(View.VISIBLE);
+        } else {
+            progressBar.setVisibility(View.GONE);
         }
     }
 }

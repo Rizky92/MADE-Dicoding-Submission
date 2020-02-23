@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 
 public class TvViewModel extends ViewModel {
-
     private static final String API_KEY = "4b71618fab6c4526517f0f17c5809762";
     private MutableLiveData<ArrayList<Tvs>> listItems = new MutableLiveData<>();
 
@@ -31,7 +30,6 @@ public class TvViewModel extends ViewModel {
         AsyncHttpClient client = new AsyncHttpClient();
         final ArrayList<Tvs> list = new ArrayList<>();
         String url;
-
         if (s.isEmpty()) {
             url = "https://api.themoviedb.org/3/discover/tv?api_key=" + API_KEY + "&language=en-US";
         } else {

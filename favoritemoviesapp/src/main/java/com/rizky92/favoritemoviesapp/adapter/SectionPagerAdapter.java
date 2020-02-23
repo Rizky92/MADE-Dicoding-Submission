@@ -1,4 +1,4 @@
-package com.rizky92.madedicodingsubmission2.adapter;
+package com.rizky92.favoritemoviesapp.adapter;
 
 import android.content.Context;
 
@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.rizky92.madedicodingsubmission2.R;
-import com.rizky92.madedicodingsubmission2.fragment.MovieFragment;
-import com.rizky92.madedicodingsubmission2.fragment.TvFragment;
+import com.rizky92.favoritemoviesapp.R;
+import com.rizky92.favoritemoviesapp.fragment.MovieFragment;
+import com.rizky92.favoritemoviesapp.fragment.TvFragment;
 
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 

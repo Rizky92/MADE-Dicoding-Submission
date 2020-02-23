@@ -37,5 +37,8 @@ dependencies {
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+
+    // for widget because picasso still haven't fixed their problems apparently
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 }

@@ -11,14 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,7 +44,6 @@ public class MovieFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
-
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,7 +62,6 @@ public class MovieFragment extends Fragment {
         viewModel.getListItems().observe(getViewLifecycleOwner(), new Observer<ArrayList<Movies>>() {
             @Override
             public void onChanged(ArrayList<Movies> movies) {
-                viewModel.setListItems(searchQuery);
                 if (movies != null) {
                     adapter.addItems(movies);
                     showLoading(false);
@@ -83,24 +79,30 @@ public class MovieFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu);
-
         SearchManager manager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
 
         if (manager != null) {
-            final SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
+            SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
             searchView.setSearchableInfo(manager.getSearchableInfo(getActivity().getComponentName()));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
+                    searchQuery = s;
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String s) {
-                    searchQuery = s;
-                    return false;
+                    viewModel.setListItems(s);
+                    return true;
                 }
             });
         }

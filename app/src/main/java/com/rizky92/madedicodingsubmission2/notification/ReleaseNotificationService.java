@@ -57,9 +57,12 @@ public class ReleaseNotificationService extends JobService {
 
                         Movies movies = new Movies();
 
-                        movies.setTitle(movie.getString("title"));
+                        String title = movie.getString("title");
+                        String desc = movie.getString("overview");
+
+                        movies.setTitle(title);
                         movies.setDate(movie.getString("release_date"));
-                        movies.setDesc(movie.getString("overview"));
+                        movies.setDesc(desc);
                         movies.setPopularity(movie.getString("popularity"));
                         movies.setLanguage(movie.getString("original_language"));
                         movies.setVoteAverage((float) movie.getDouble("vote_average"));
@@ -71,7 +74,7 @@ public class ReleaseNotificationService extends JobService {
                         Log.d(TAG, "movies " + i + movies.getTitle());
 
                         ReleaseNotificationReceiver receiver = new ReleaseNotificationReceiver();
-
+                        receiver.setReleaseAlarm(getApplicationContext(), ReleaseNotificationReceiver.TYPE_ONE_TIME, "10:33", title, desc);
 
                         list.add(movies);
                     }

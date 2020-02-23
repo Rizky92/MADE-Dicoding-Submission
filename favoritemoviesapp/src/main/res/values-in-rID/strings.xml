@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MADE Dicoding Submission 5</string>
+    <string name="app_name">Aplikasi Film Favorit</string>
 
     <string name="title">Judul</string>
+    <string name="adesc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="desc">Deskripsi</string>
     <string name="date">Dirilis pada\u00A0</string>
     <string name="aired">Tayang perdana pada\u00A0</string>
@@ -18,9 +19,6 @@
 
     <string name="fav_movies">Lihat film favorit</string>
     <string name="fav_tvs">Lihat seri TV favorit</string>
-
-    <string name="widget_movies">Film Favorit</string>
-    <string name="widget_tvs">Seri TV Favorit</string>
 
     <string name="settings">Pengaturan</string>
     <string name="settings_locale">Ubah bahasa</string>
@@ -50,5 +48,4 @@
     <string name="search">Cari…</string>
     <string name="locale_desc">Ganti bahasa anda</string>
     <string name="job_running">Job sudah berjalan</string>
-    <string name="empty">Belum ada film…</string>
 </resources>

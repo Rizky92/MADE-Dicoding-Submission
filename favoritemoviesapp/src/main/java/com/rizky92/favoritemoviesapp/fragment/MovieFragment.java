@@ -1,11 +1,6 @@
-package com.rizky92.madedicodingsubmission2;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.rizky92.favoritemoviesapp.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -16,49 +11,66 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.rizky92.madedicodingsubmission2.adapter.MovieAdapter;
-import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
-import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
-import com.rizky92.madedicodingsubmission2.pojo.Movies;
-import com.squareup.picasso.Picasso;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.rizky92.favoritemoviesapp.R;
+import com.rizky92.favoritemoviesapp.adapter.MovieAdapter;
+import com.rizky92.favoritemoviesapp.database.DatabaseContract;
+import com.rizky92.favoritemoviesapp.helper.MappingHelper;
+import com.rizky92.favoritemoviesapp.pojo.Movies;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
-public class FavoriteMovieActivity extends AppCompatActivity implements LoadMoviesCallback {
+interface LoadMoviesCallback {
+    void preExecute();
+
+    void postExecute(ArrayList<Movies> listMovies);
+}
+
+public class MovieFragment extends Fragment implements LoadMoviesCallback {
 
     private static final String EXTRA_STATE_MOVIE = "extra_state_movie";
+    private ProgressBar progressBar;
+    private MovieAdapter adapter;
+    private ArrayList<Movies> list = new ArrayList<>();
 
-    ProgressBar progressBar;
-    MovieAdapter adapter;
-    ArrayList<Movies> list = new ArrayList<>();
+    public MovieFragment() {
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
 
-        progressBar = findViewById(R.id.progress_circular_item);
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        progressBar = view.findViewById(R.id.progress_circular_item);
 
-        RecyclerView recyclerView = findViewById(R.id.recycle_viewers);
+        RecyclerView recyclerView = view.findViewById(R.id.recycle_viewers);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         adapter = new MovieAdapter(list);
         recyclerView.setAdapter(adapter);
+
 
         HandlerThread thread = new HandlerThread("MovieObserver");
         thread.start();
         Handler handler = new Handler(thread.getLooper());
 
-        MovieObserver observer = new MovieObserver(handler, this);
-        getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, true, observer);
+        MovieObserver observer = new MovieObserver(handler, getContext());
+        getActivity().getContentResolver().registerContentObserver(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, true, observer);
 
         if (savedInstanceState == null) {
-            new LoadMoviesAsync(this, this).execute();
+            new LoadMoviesAsync(getContext(), this).execute();
         } else {
             ArrayList<Movies> list = savedInstanceState.getParcelableArrayList(EXTRA_STATE_MOVIE);
             if (list != null) {
@@ -69,7 +81,7 @@ public class FavoriteMovieActivity extends AppCompatActivity implements LoadMovi
 
     @Override
     public void preExecute() {
-        runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 progressBar.setVisibility(View.VISIBLE);
@@ -134,12 +146,6 @@ public class FavoriteMovieActivity extends AppCompatActivity implements LoadMovi
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            new LoadMoviesAsync(context, (LoadMoviesCallback) context).execute();
         }
     }
-}
-
-interface LoadMoviesCallback {
-    void preExecute();
-    void postExecute(ArrayList<Movies> listMovies);
 }
