@@ -72,10 +72,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.CardViewHold
     }
 
     class CardViewHolder extends RecyclerView.ViewHolder {
-        TextView cardTitle;
-        TextView cardDesc;
-        TextView cardDate;
-        ImageView cardPoster;
+        final TextView cardTitle;
+        final TextView cardDesc;
+        final TextView cardDate;
+        final ImageView cardPoster;
 
         CardViewHolder(View itemView) {
             super(itemView);

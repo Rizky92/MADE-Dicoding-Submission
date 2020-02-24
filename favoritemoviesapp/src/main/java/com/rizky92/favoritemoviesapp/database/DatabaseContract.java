@@ -5,10 +5,10 @@ import android.provider.BaseColumns;
 
 public class DatabaseContract {
 
-    public static final String MOVIE_AUTHORITY = "com.rizky92.madedicodingsubmission2movie";
-    public static final String TV_AUTHORITY = "com.rizky92.madedicodingsubmission2tv";
-    public static final String MOVIES_TABLE = "favorites_movie";
-    public static final String TVS_TABLE = "favorite_tv";
+    private static final String MOVIE_AUTHORITY = "com.rizky92.madedicodingsubmission2movie";
+    private static final String TV_AUTHORITY = "com.rizky92.madedicodingsubmission2tv";
+    private static final String MOVIES_TABLE = "favorites_movie";
+    private static final String TVS_TABLE = "favorite_tv";
     private static final String SCHEME = "content";
 
     public static final class MovieColumns implements BaseColumns {

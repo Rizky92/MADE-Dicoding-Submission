@@ -27,9 +27,14 @@
 
     <string name="settings_reminder">Enable Reminder</string>
     <string name="reminder_desc">Reminder will notify you to return on our app at 7 am</string>
+    <string name="reminder_title">Come back!</string>
+    <string name="reminder_notification">Hey come back! We miss you! Checkout today\'s selection of movies for you.</string>
 
     <string name="settings_release">Enable Today\'s Release</string>
     <string name="release_desc">Today\'s Release will notify you about today\'s movie releases at 8 am</string>
+    <string name="release_title">New movie Released!</string>
+    <string name="release_notification">New films premiere today:\u00A0</string>
+    <string name="release_count">New Movies</string>
 
     <string name="enable">Enable</string>
     <string name="enabled">Enabled</string>

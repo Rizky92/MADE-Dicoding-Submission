@@ -26,13 +26,9 @@ import static com.rizky92.favoritemoviesapp.database.DatabaseContract.MovieColum
 
 public class DetailActivity extends AppCompatActivity {
 
-    public static final int NOTIFICATION_ID = 1;
     public static final String EXTRA_MOVIES = "extra_movie";
     public static final String EXTRA_TVS = "extra_tvs";
 
-    // TODO: baca ID genre
-    public static String CHANNEL_ID = "detail_activity_channel";
-    public static CharSequence CHANNEL_NAME = "made channel";
     private View layoutDetail;
     private ProgressBar progressBar;
     private Button btnFavoriteMovie;

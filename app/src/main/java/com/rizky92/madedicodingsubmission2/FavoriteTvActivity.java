@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -13,18 +12,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.rizky92.madedicodingsubmission2.adapter.TvAdapter;
 import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
 import com.rizky92.madedicodingsubmission2.pojo.Tvs;
-import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -33,9 +27,9 @@ public class FavoriteTvActivity extends AppCompatActivity implements LoadTvsCall
 
     private static final String EXTRA_STATE_TV = "extra_state_tv";
 
-    ProgressBar progressBar;
-    TvAdapter adapter;
-    ArrayList<Tvs> list = new ArrayList<>();
+    private ProgressBar progressBar;
+    private TvAdapter adapter;
+    private final ArrayList<Tvs> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

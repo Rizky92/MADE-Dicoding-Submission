@@ -3,7 +3,6 @@ package com.rizky92.madedicodingsubmission2.fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +31,7 @@ public class MovieFragment extends Fragment {
     private ProgressBar progressBar;
     private MovieAdapter adapter;
     private MovieViewModel viewModel;
-    private ArrayList<Movies> list = new ArrayList<>();
+    private final ArrayList<Movies> list = new ArrayList<>();
     private String searchQuery = "";
 
     public MovieFragment() {
@@ -76,12 +75,6 @@ public class MovieFragment extends Fragment {
         } else {
             progressBar.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 
     @Override

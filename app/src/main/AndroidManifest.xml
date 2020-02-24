@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <receiver android:name=".widget.movies.FavoriteMoviesWidget">
+        <receiver android:name=".widget.FavoriteWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -54,17 +54,10 @@
             android:writePermission="com.rizky92.madedicodingsubmission2.WRITE_DATABASE" />
 
         <service
-            android:name=".notification.ReleaseNotificationService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
-        <service
-            android:name="com.rizky92.madedicodingsubmission2.widget.movies.StackWidgetService"
+            android:name="com.rizky92.madedicodingsubmission2.widget.StackWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".TestNotificationActivity" />
         <activity android:name=".FavoriteMovieActivity" />
         <activity android:name=".FavoriteTvActivity" />
         <activity android:name=".DetailActivity" />

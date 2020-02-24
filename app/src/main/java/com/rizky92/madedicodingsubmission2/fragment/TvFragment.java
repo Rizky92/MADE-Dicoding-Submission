@@ -3,7 +3,6 @@ package com.rizky92.madedicodingsubmission2.fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,8 +31,7 @@ public class TvFragment extends Fragment {
     private ProgressBar progressBar;
     private TvAdapter adapter;
     private TvViewModel viewModel;
-    private ArrayList<Tvs> list = new ArrayList<>();
-    private String searchQuery = "";
+    private final ArrayList<Tvs> list = new ArrayList<>();
 
     public TvFragment() {
     }
@@ -56,7 +54,7 @@ public class TvFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         viewModel = new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(TvViewModel.class);
-        viewModel.setListItems(searchQuery);
+        viewModel.setListItems("");
         showLoading(true);
 
         viewModel.getListItems().observe(getViewLifecycleOwner(), new Observer<ArrayList<Tvs>>() {

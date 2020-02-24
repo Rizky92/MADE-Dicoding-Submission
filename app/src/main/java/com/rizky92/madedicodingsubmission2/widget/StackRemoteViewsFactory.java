@@ -1,4 +1,4 @@
-package com.rizky92.madedicodingsubmission2.widget.movies;
+package com.rizky92.madedicodingsubmission2.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,17 +12,19 @@ import com.rizky92.madedicodingsubmission2.R;
 import com.rizky92.madedicodingsubmission2.database.DatabaseContract;
 import com.rizky92.madedicodingsubmission2.helper.MappingHelper;
 import com.rizky92.madedicodingsubmission2.pojo.Movies;
+import com.rizky92.madedicodingsubmission2.pojo.Tvs;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private final List<Bitmap> items = new ArrayList<>();
-    private ArrayList<Movies> list = new ArrayList<>();
-    private Context context;
+    private ArrayList<Movies> listMovies = new ArrayList<>();
+    private ArrayList<Tvs> listTvs = new ArrayList<>();
+    private final Context context;
     private Bitmap bitmap;
 
     StackRemoteViewsFactory(Context context) {
@@ -33,18 +35,36 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
     public void onCreate() {
         Cursor cursor = context.getContentResolver().query(DatabaseContract.MovieColumns.MOVIE_CONTENT_URI, null, null, null, null);
         if (cursor != null) {
-            list = MappingHelper.mapMovieCursorToArrayList(cursor);
+            listMovies = MappingHelper.mapMovieCursorToArrayList(cursor);
+        }
+
+        cursor = context.getContentResolver().query(DatabaseContract.TvColumns.TV_CONTENT_URI, null, null, null, null);
+        if (cursor != null) {
+            listTvs = MappingHelper.mapTvCursorToArrayList(cursor);
         }
     }
 
     @Override
     public void onDataSetChanged() {
-        if (list != null) {
-            for (int i = 0; i < list.size(); i++) {
+        if (listMovies != null) {
+            for (int i = 0; i < listMovies.size(); i++) {
+                try {
+                    bitmap = Picasso.get()
+                            .load(listMovies.get(i).getPosterPath())
+                            .get();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                items.add(bitmap);
+            }
+        }
+
+        if (listTvs != null) {
+            for (int i = 0; i < listTvs.size(); i++) {
                 bitmap = null;
                 try {
                     bitmap = Picasso.get()
-                            .load(list.get(i).getPosterPath())
+                            .load(listTvs.get(i).getPosterPath())
                             .get();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -70,7 +90,7 @@ public class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
         remoteViews.setImageViewBitmap(R.id.image_view_widget, items.get(i));
 
         Bundle extras = new Bundle();
-        extras.putInt(FavoriteMoviesWidget.EXTRA_ITEM, i);
+        extras.putInt(FavoriteWidget.EXTRA_ITEM, i);
         Intent fill = new Intent();
         fill.putExtras(extras);
 

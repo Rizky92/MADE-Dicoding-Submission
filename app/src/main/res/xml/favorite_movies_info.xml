@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialKeyguardLayout="@layout/favorite_movies"
-    android:initialLayout="@layout/favorite_movies"
+    android:initialKeyguardLayout="@layout/favorite_widget"
+    android:initialLayout="@layout/favorite_widget"
     android:minWidth="180dp"
     android:minHeight="110dp"
     android:previewImage="@drawable/example_appwidget_preview"

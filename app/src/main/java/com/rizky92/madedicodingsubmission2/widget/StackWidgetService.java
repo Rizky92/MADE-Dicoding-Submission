@@ -1,4 +1,4 @@
-package com.rizky92.madedicodingsubmission2.widget.movies;
+package com.rizky92.madedicodingsubmission2.widget;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

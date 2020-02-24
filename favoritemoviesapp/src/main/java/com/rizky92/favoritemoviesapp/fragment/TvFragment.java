@@ -34,7 +34,7 @@ public class TvFragment extends Fragment implements LoadTvsCallback {
 
     private ProgressBar progressBar;
     private TvAdapter adapter;
-    private ArrayList<Tvs> list = new ArrayList<>();
+    private final ArrayList<Tvs> list = new ArrayList<>();
 
     public TvFragment() {
     }

@@ -20,7 +20,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class TvViewModel extends ViewModel {
     private static final String API_KEY = "4b71618fab6c4526517f0f17c5809762";
-    private MutableLiveData<ArrayList<Tvs>> listItems = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Tvs>> listItems = new MutableLiveData<>();
 
     public LiveData<ArrayList<Tvs>> getListItems() {
         return listItems;

@@ -39,7 +39,7 @@ public class MovieFragment extends Fragment implements LoadMoviesCallback {
     private static final String EXTRA_STATE_MOVIE = "extra_state_movie";
     private ProgressBar progressBar;
     private MovieAdapter adapter;
-    private ArrayList<Movies> list = new ArrayList<>();
+    private final ArrayList<Movies> list = new ArrayList<>();
 
     public MovieFragment() {
     }
