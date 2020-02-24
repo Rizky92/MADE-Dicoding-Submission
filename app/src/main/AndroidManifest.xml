@@ -37,6 +37,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <receiver
+            android:name=".notification.ReminderNotificationReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
         <provider
             android:name=".provider.FavoriteTvProvider"
             android:authorities="com.rizky92.madedicodingsubmission2tv"

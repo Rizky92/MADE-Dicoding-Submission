@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -35,10 +36,13 @@ public class ReminderNotificationReceiver extends BroadcastReceiver {
 
     private void setReminder(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), "SetReminder::intent " + String.valueOf(intent));
 
         PendingIntent pendingTaskIntent = TaskStackBuilder.create(context)
                 .addNextIntent(intent)
                 .getPendingIntent(REQUEST_CODE, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), String.valueOf(pendingTaskIntent));
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
@@ -48,6 +52,9 @@ public class ReminderNotificationReceiver extends BroadcastReceiver {
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_movie_creation_black_24dp))
                 .setContentIntent(pendingTaskIntent)
                 .setAutoCancel(true);
+
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), "SetReminder::builder " + String.valueOf(builder));
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), "SetReminder::manager " + String.valueOf(manager));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
@@ -59,6 +66,7 @@ public class ReminderNotificationReceiver extends BroadcastReceiver {
         }
 
         Notification notification = builder.build();
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), "SetReminder::notification " + String.valueOf(notification));
 
         if (manager != null) {
             manager.notify(REMINDER_ID, notification);
@@ -67,22 +75,24 @@ public class ReminderNotificationReceiver extends BroadcastReceiver {
 
     public void enableReminder(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), "EnableReminder::alarmManager " + alarmManager);
 
         Intent intent = new Intent(context, ReminderNotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REMINDER_ID, intent, 0);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
-        calendar.set(Calendar.MINUTE, 53);
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         if (alarmManager != null) {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
 
     public void disableReminder(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Log.d(ReminderNotificationReceiver.class.getSimpleName(), "DisableReminder::alarmManager " + String.valueOf(alarmManager));
 
         Intent intent = new Intent(context, ReleaseNotificationReceiver.class);
 
